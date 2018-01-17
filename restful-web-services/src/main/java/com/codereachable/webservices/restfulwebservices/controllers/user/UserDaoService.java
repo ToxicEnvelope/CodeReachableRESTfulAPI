@@ -1,4 +1,4 @@
-package com.codereachable.webservices.restfulservices.user;
+package com.codereachable.webservices.restfulwebservices.controllers.user;
 
 
 import java.util.ArrayList;
@@ -10,9 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserDaoService {
 	
+	// Fields
 	private static List<User> users = new ArrayList<>();
 	private static Integer usersCount = 3;
 	
+	// Static array list to simulate database
 	static {
 		users.add(new User(1, "Adam", new Date(), "adam@yahoo.com"));
 		users.add(new User(2, "Eve", new Date(), "eve@facebook.com"));
@@ -26,6 +28,17 @@ public class UserDaoService {
 	
 	// save -> save a new user to DB, and return his entity
 	public User save(User u) {
+		/* TODO
+		 *  FIX birthdate issue.
+		 *  When a new User object is saved as followed:
+		 *  --- JSON FORMAT ---
+		 *  {
+		 *  	"name" : "test user",
+		 *  	"email" : "test_user@email.com",
+		 *  	"birthdate" : "1990-10-011T23:19:59.942+0000"
+		 *  } 
+		 *  the birthdate appears to be NULL
+		 *  */
 		if (u.getId() == null) {
 			u.setId(++usersCount);
 		}

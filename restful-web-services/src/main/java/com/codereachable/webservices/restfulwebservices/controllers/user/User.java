@@ -1,15 +1,22 @@
-package com.codereachable.webservices.restfulservices.user;
+package com.codereachable.webservices.restfulwebservices.controllers.user;
 
 import java.util.Date;
 
 public class User {
 
+	// Fields
 	private Integer _id;
 	private String _name;
 	private Date _birthdate;
 	private String _email;
 	
-	
+	// Default Constructor 
+	/*
+	 * This default constructor is responsible of POST handling and User object creating
+	 * Will handle user creation and not return a 500 response .
+	 */
+	protected User() {}
+	//Constructor
 	public User(Integer id, String name, Date date, String email) {
 		this._id = id;
 		this._name = name;
@@ -17,7 +24,7 @@ public class User {
 		this._email = email;
 	}
 
-
+	// Getters & Setters
 	public Integer getId() {
 		return _id;
 	}
