@@ -22,16 +22,16 @@ public class User {
 		return _id;
 	}
 
-	public void setId(Integer _id) {
-		this._id = _id;
+	public void setId(Integer id) {
+		this._id = id;
 	}
 
 	public String getName() {
 		return _name;
 	}
 
-	public void setName(String _name) {
-		this._name = _name;
+	public void setName(String name) {
+		this._name = name;
 	}
 
 	public Date getBirthdate() {
@@ -47,8 +47,8 @@ public class User {
 		return _email;
 	}
 
-	public void setEmail(String _email) {
-		this._email = _email;
+	public void setEmail(String email) {
+		this._email = email;
 	} 
 
 	@Override
