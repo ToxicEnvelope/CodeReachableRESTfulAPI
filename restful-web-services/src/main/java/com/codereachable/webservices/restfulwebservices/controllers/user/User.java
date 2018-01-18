@@ -2,12 +2,23 @@ package com.codereachable.webservices.restfulwebservices.controllers.user;
 
 import java.util.Date;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 public class User {
 
 	// Fields
 	private Integer _id;
+	@NotNull
+	@Size(min=3, max=20)
 	private String _name;
+	@Past
 	private Date _birthdate;
+	@NotNull
+	@Size(min=10, max=35)
+	@Email()
 	private String _email;
 	
 	// Default Constructor 

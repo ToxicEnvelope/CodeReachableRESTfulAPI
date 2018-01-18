@@ -3,6 +3,8 @@ package com.codereachable.webservices.restfulwebservices.controllers.user;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,7 +62,7 @@ public class UserResource {
 	// input -> user object
 	// output -> CREATED & Return the current URI
 	@PostMapping("/users")
-	public ResponseEntity<Object> createUser(@RequestBody User u) {
+	public ResponseEntity<Object> createUser(@Valid @RequestBody User u) {
 		User savedUser = service.save(u);
 		/*  Build a URI object to represent the CREATED
 		 * new User and return his ResponseEntity
