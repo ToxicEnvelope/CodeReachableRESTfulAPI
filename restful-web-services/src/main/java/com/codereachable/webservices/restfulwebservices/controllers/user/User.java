@@ -16,9 +16,11 @@ public class User {
 	private String _name;
 	@Past
 	private Date _birthdate;
+	// Optional custom @Pattern: 
+	// https://stackoverflow.com/questions/4459474/hibernate-validator-email-accepts-askstackoverflow-as-valid
 	@NotNull
 	@Size(min=10, max=35)
-	@Email()
+	@Email() 
 	private String _email;
 	
 	// Default Constructor 
