@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.codereachable.webservices.restfulwebservices.content.CourseNotFoundException;
 import com.codereachable.webservices.restfulwebservices.controllers.user.UserNotFoundException;
 
 /*
@@ -48,6 +49,17 @@ extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(UserNotFoundException.class)
 	public final ResponseEntity<Object> handleUserExceptions
 	(UserNotFoundException ex, WebRequest req) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(
+				new Date(),
+				ex.getMessage(), 
+				req.getDescription(false));
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	// Handles CourseNotFoundException
+	@ExceptionHandler(CourseNotFoundException.class)
+	public final ResponseEntity<Object> handleCourseExceptions
+	(CourseNotFoundException ex, WebRequest req) {
 		ExceptionResponse exceptionResponse = new ExceptionResponse(
 				new Date(),
 				ex.getMessage(), 

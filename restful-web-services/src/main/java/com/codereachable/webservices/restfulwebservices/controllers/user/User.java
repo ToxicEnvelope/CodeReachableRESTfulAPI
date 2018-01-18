@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import com.codereachable.webservices.restfulwebservices.content.Course;
+
 public class User {
 
 	// Fields
@@ -22,6 +24,8 @@ public class User {
 	@Size(min=10, max=35)
 	@Email() 
 	private String _email;
+	@NotNull
+	private Course _course;
 	
 	// Default Constructor 
 	/*
@@ -35,6 +39,7 @@ public class User {
 		this._name = name;
 		this._birthdate = date;
 		this._email = email;
+		this._course = new Course(5,"test title","test description",0);
 	}
 
 	// Getters & Setters
@@ -73,7 +78,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [_id=" + _id + ", _name=" + _name + ", _birthdate=" + _birthdate + ", _email=" + _email + "]";
+		return "User [id=" + _id + ", name=" + _name + ", birthdate=" + _birthdate + ", email=" + _email + ", course=" + _course.getCourseDetails() +"]";
 	}
 	
 

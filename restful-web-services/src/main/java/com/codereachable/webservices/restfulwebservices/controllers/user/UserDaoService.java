@@ -57,7 +57,7 @@ public class UserDaoService {
 		return null;
 	}
 	
-	// deleteById -> find a specific user based on the id from DB
+	// deleteById -> delete a specific user based on the id from DB
 	public User deleteById(Integer id) {
 		Iterator<User> iterator = users.iterator();
 		while(iterator.hasNext()) {

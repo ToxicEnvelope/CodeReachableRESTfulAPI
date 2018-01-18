@@ -30,7 +30,8 @@ public class UserResource {
 	}
 	
 	//GET /users/{id}
-	// output -> return a specific users give an id
+	// input -> a user id
+	// output -> return a specific user give an id
 	@GetMapping("/users/{id}")
 	public User retrieveUser(@PathVariable int id) {
 		User u = service.findOne(id);
@@ -45,6 +46,7 @@ public class UserResource {
 	}
 	
 	//DELETE /users/{id}
+	// input -> a user id
 	// output -> return a specific users give an id
 	@DeleteMapping("/users/{id}")
 	public void deleteUser(@PathVariable int id) {
