@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class CourseResource {
 	// input -> a course id
 	// output -> return a specific course given an id
 	@GetMapping("/courses/{id}")
-	public Course retrieveCourse(@PathVariable Integer id) {
+	public Course retrieveCourse(@PathVariable int id) {
 		Course c = service.findOne(id);
 		if (c == null) {
 			/*
@@ -42,6 +43,21 @@ public class CourseResource {
 			throw new CourseNotFoundException("id=" + id);
 		}
 		return c;
+	}
+	
+	//DELETE /courses/{id}
+	// input -> a course id
+	// output -> return a specific course given an id
+	@DeleteMapping("/courses/{id}")
+	public void deleteCourse(@PathVariable int id) {
+		Course c = service.deleteById(id);
+		if (c == null) {
+			/*
+			 * When Course object is null we throw a 
+			 * CourseNotFoundException
+			 */
+			throw new CourseNotFoundException("id=" + id);
+		}
 	}
 	
 	//POST
