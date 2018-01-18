@@ -3,6 +3,7 @@ package com.codereachable.webservices.restfulwebservices.controllers.user;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -50,6 +51,19 @@ public class UserDaoService {
 	public User findOne(Integer id) {
 		for (User u : users) {
 			if (u.getId() == id) {
+				return u;
+			}
+		}
+		return null;
+	}
+	
+	// deleteById -> find a specific user based on the id from DB
+	public User deleteById(Integer id) {
+		Iterator<User> iterator = users.iterator();
+		while(iterator.hasNext()) {
+			User u = iterator.next();
+			if (u.getId() == id) {
+				iterator.remove();
 				return u;
 			}
 		}
