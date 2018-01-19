@@ -43,6 +43,9 @@ public class UserDaoService {
 		if (u.getId() == null) {
 			u.setId(++usersCount);
 		}
+		if (u.getBirthdate() == null) {
+			u.setBrithdate(new Date());
+		}
 		users.add(u);
 		return u;
 	}

@@ -3,8 +3,10 @@ package com.codereachable.webservices.restfulwebservices.expections;
 
 import java.util.Date;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +45,16 @@ extends ResponseEntityExceptionHandler {
 				ex.getMessage(), 
 				req.getDescription(false));
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	// Handle arguments not valid
+	public ResponseEntity<Object> handleMethodArgumentNotValid
+	(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest req) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(
+				new Date(),
+				"Validation Failed on session : " + req.getSessionId(), 
+				ex.getBindingResult().getFieldError().toString());
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.BAD_REQUEST);
 	}
 	
 	// Handles UserNotFoundException

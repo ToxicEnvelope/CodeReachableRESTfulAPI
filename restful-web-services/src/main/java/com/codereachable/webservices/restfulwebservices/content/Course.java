@@ -9,13 +9,11 @@ public class Course {
 	// Fields 
 	private Integer _courseId;
 	@NotNull
-	@Size(min=2, max=10)
+	@Size(min=2, max=10, message="Course Name excepts between 2 to 10 charachters")
 	private String _courseName;
 	@NotNull
-	@Size(min=20, max=100)
+	@Size(min=20, max=100, message="Course Details excepts between 20 to 100 charachters")
 	private String _courseDetails;
-	@NotNull
-	private Integer _score;
 	private Boolean _isActive;
 	
 	// Default Constructor
@@ -25,11 +23,10 @@ public class Course {
 	 */
 	protected Course() {}
 	// Constructor
-	public Course(Integer id, String cname, String details, Integer score) {
+	public Course(Integer id, String cname, String details) {
 		this._courseId = id;
 		this._courseName = cname;
 		this._courseDetails = details;
-		this._score = score;
 		this._isActive = false;	
 	}
 	
@@ -66,16 +63,8 @@ public class Course {
 		this._isActive = b;
 	}
 	
-	public Integer getScore() {
-		return _score;
-	} 
-	
-	public void setScore(Integer s) {
-		this._score = s;
-	}
-	
 	@Override
 	public String toString() {
-		return "User [id=" + _courseId + ", name=" + _courseName + ", course details=" + _courseDetails + ", score=" + _score + "]";
+		return "User [id=" + _courseId + ", name=" + _courseName + ", course details=" + _courseDetails + "]";
 	}
 }

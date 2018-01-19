@@ -15,12 +15,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.codereachable.webservices.restfulwebservices.content.Course;
+import com.codereachable.webservices.restfulwebservices.content.CourseDaoService;
+import com.codereachable.webservices.restfulwebservices.content.CourseNotFoundException;
+
 @RestController
 public class UserResource {
  
 	// Fields
 	@Autowired
 	private UserDaoService service;
+	@Autowired
+	private CourseDaoService cservice;
 	
 	//GET /users
 	// output -> retrieve all users
@@ -43,6 +49,18 @@ public class UserResource {
 			throw new UserNotFoundException("id=" + id);
 		}
 		return u;
+	}
+	
+	//GET /users/{id}/course-list
+	// input -> user id
+	// output -> return all course from a specific user
+	@GetMapping("/users/{id}/course-list")
+	public List<Course> retriveUserCourses(@PathVariable int id) {
+		User u = service.findOne(id);
+		if (u == null) {
+			throw new UserNotFoundException("id=" + id);	
+		}
+		return u.getCourses();
 	}
 	
 	//DELETE /users/{id}
@@ -75,6 +93,39 @@ public class UserResource {
 				.fromCurrentRequest()
 		     	.path("/{id}")
 		     	.buildAndExpand(savedUser.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
+	
+	/*
+	 * TODO : Course is CREATED but response is 500
+	 * FIX response CREATED issue.
+	 * When 
+	 */
+	//POST
+	// input -> course object
+	// output -> CREATED & Return the current uri
+	@PostMapping("/users/{uid}/add-course")
+	public ResponseEntity<Object> addCourseToUser(@PathVariable int uid, @Valid @RequestBody Course c) {
+		User currentUser = service.findOne(uid);
+		/*
+		 * TODO : **Change the looping complexity**
+		 * -- Search a course in smaller lists!
+		 * -- get the cservice.findAll() -> List<Course> ,
+		 * -- device to X of sublists and iterate through until matches found 
+		 */
+		for(Course dbcourse : cservice.findAll()) {
+			if (c.getCourseName() == dbcourse.getCourseName()) {
+				currentUser.setCourse(c);
+			}
+			else if (c.getCourseName() != dbcourse.getCourseName()) {
+				currentUser.setCourse(cservice.save(c));
+			}
+		}
+		URI uri = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+		     	.path("/{cid}")
+		     	.buildAndExpand(currentUser.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 }
