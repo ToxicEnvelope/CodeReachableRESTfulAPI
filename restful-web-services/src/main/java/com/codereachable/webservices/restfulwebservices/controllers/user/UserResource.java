@@ -17,7 +17,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codereachable.webservices.restfulwebservices.content.Course;
 import com.codereachable.webservices.restfulwebservices.content.CourseDaoService;
-import com.codereachable.webservices.restfulwebservices.content.CourseNotFoundException;
 
 @RestController
 public class UserResource {
@@ -31,7 +30,7 @@ public class UserResource {
 	//GET /users
 	// output -> retrieve all users
 	@GetMapping("/users")
-	public List<User> retrieveAllUsers() {
+	public List<UserV2> retrieveAllUsers() {
 		return service.findAll();
 	}
 	
@@ -39,8 +38,8 @@ public class UserResource {
 	// input -> a user id
 	// output -> return a specific user give an id
 	@GetMapping("/users/{id}")
-	public User retrieveUser(@PathVariable int id) {
-		User u = service.findOne(id);
+	public UserV2 retrieveUser(@PathVariable int id) {
+		UserV2 u = service.findById(id);
 		if (u == null) {
 			/*
 			 * When User object is null we throw a
@@ -56,7 +55,7 @@ public class UserResource {
 	// output -> return all course from a specific user
 	@GetMapping("/users/{id}/course-list")
 	public List<Course> retriveUserCourses(@PathVariable int id) {
-		User u = service.findOne(id);
+		UserV2 u = service.findById(id);
 		if (u == null) {
 			throw new UserNotFoundException("id=" + id);	
 		}
@@ -68,7 +67,7 @@ public class UserResource {
 	// output -> return a specific users give an id
 	@DeleteMapping("/users/{id}")
 	public void deleteUser(@PathVariable int id) {
-		User u = service.deleteById(id);
+		UserV2 u = service.deleteById(id);
 		if (u == null) {
 			/*
 			 * When User object is null we throw a
@@ -82,8 +81,8 @@ public class UserResource {
 	// input -> user object
 	// output -> CREATED & Return the current URI
 	@PostMapping("/users")
-	public ResponseEntity<Object> createUser(@Valid @RequestBody User u) {
-		User savedUser = service.save(u);
+	public ResponseEntity<Object> createUser(@Valid @RequestBody UserV2 u) {
+		UserV2 savedUser = service.save(u);
 		/*  Build a URI object to represent the CREATED
 		 * new User and return his ResponseEntity
 		 * 
@@ -107,7 +106,7 @@ public class UserResource {
 	// output -> CREATED & Return the current uri
 	@PostMapping("/users/{uid}/add-course")
 	public ResponseEntity<Object> addCourseToUser(@PathVariable int uid, @Valid @RequestBody Course c) {
-		User currentUser = service.findOne(uid);
+		UserV2 currentUser = service.findById(uid);
 		/*
 		 * TODO : **Change the looping complexity**
 		 * -- Search a course in smaller lists!

@@ -34,7 +34,7 @@ public class CourseResource {
 	// output -> return a specific course given an id
 	@GetMapping("/courses/{id}")
 	public Course retrieveCourse(@PathVariable int id) {
-		Course c = service.findOne(id);
+		Course c = service.findById(id);
 		if (c == null) {
 			/*
 			 * When Course object is null we throw a 

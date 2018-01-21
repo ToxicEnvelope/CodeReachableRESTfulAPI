@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 
 import com.codereachable.webservices.restfulwebservices.content.Course;
 
-public class User {
+public class UserV1 {
 
 	// Fields
 	private Integer _id;
@@ -30,19 +30,19 @@ public class User {
 	private Integer _score;
 	@NotNull
 	private List<Course> _courses = new ArrayList<>();
-	// added global courses to simulate a DB for testing purposes
-	{
-		_courses.add(new Course(12, "C++", "A simple C++ description"));
-		_courses.add(new Course(55, "GO", "A simple GO description"));
-	}
+//	// added global courses to simulate a DB for testing purposes
+//	{
+//		_courses.add(new Course(12, "C++", "A simple C++ description"));
+//		_courses.add(new Course(55, "GO", "A simple GO description"));
+//	}
 	// Default Constructor 
 	/*
 	 * This default constructor is responsible of POST handling and User object creating
 	 * Will handle user creation and not return a 500 response .
 	 */
-	protected User() {}
+	protected UserV1() {}
 	//Constructor
-	public User(Integer id, String name, Date date, String email) {
+	public UserV1(Integer id, String name, Date date, String email) {
 		this._id = id;
 		this._name = name;
 		this._birthdate = date;

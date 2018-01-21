@@ -12,23 +12,23 @@ import org.springframework.stereotype.Component;
 public class UserDaoService {
 	
 	// Fields
-	private static List<User> users = new ArrayList<>();
+	private static List<UserV2> users = new ArrayList<>();
 	private static Integer usersCount = 3;
 	
 	// Static array list to simulate database
 	static {
-		users.add(new User(1, "Adam", new Date(), "adam@yahoo.com"));
-		users.add(new User(2, "Eve", new Date(), "eve@facebook.com"));
-		users.add(new User(3, "Jack", new Date(), "jack@live.com"));
+		users.add(new UserV2(1, "Adam", "Eden", new Date(), "adam@yahoo.com"));
+		users.add(new UserV2(2, "Eve", "Eden", new Date(), "eve@facebook.com"));
+		users.add(new UserV2(3, "Jack", "Sparro", new Date(), "jack@live.com"));
 	}
 	
 	// findAll -> return all users from DB
-	public List<User> findAll() {
+	public List<UserV2> findAll() {
 		return users;
 	}
 	
 	// save -> save a new user to DB, and return his entity
-	public User save(User u) {
+	public UserV2 save(UserV2 u) {
 		/* TODO
 		 *  FIX birthdate issue.
 		 *  When a new User object is saved as followed:
@@ -43,16 +43,16 @@ public class UserDaoService {
 		if (u.getId() == null) {
 			u.setId(++usersCount);
 		}
-		if (u.getBirthdate() == null) {
-			u.setBrithdate(new Date());
+		if (u.getDetails().getDateOfBirth() == null) {
+			u.getDetails().setDateOdBirth(new Date());
 		}
 		users.add(u);
 		return u;
 	}
 	
 	// findOne -> find a specific user based on the id from DB
-	public User findOne(Integer id) {
-		for (User u : users) {
+	public UserV2 findById(Integer id) {
+		for (UserV2 u : users) {
 			if (u.getId() == id) {
 				return u;
 			}
@@ -61,10 +61,10 @@ public class UserDaoService {
 	}
 	
 	// deleteById -> delete a specific user based on the id from DB
-	public User deleteById(Integer id) {
-		Iterator<User> iterator = users.iterator();
+	public UserV2 deleteById(Integer id) {
+		Iterator<UserV2> iterator = users.iterator();
 		while(iterator.hasNext()) {
-			User u = iterator.next();
+			UserV2 u = iterator.next();
 			if (u.getId() == id) {
 				iterator.remove();
 				return u;

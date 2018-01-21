@@ -40,7 +40,7 @@ public class CourseDaoService {
 	}
 	
 	// findOne -> find specific course based on the id from DB
-	public Course findOne(Integer id) {
+	public Course findById(Integer id) {
 		for(Course c : courses) {
 			if (c.getId() == id) {
 				return c;
