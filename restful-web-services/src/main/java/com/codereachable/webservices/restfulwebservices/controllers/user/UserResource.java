@@ -62,6 +62,25 @@ public class UserResource {
 		return u.getCourses();
 	}
 	
+	//DELETE /users/{uid}/course-list/{cid}
+	// input -> user id , course id
+	// output -> delete a specific course of a specific user by id
+	@DeleteMapping("/users/{uid}/course-list/{cid}")
+	public void deleteUserCourse(@PathVariable int uid, @PathVariable int cid) {
+		UserV2 u = service.findById(uid);
+		if (u == null) {
+			throw new UserNotFoundException("uid=" + uid);
+		}
+		else {
+			List<Course> userCourses = u.getCourses();
+			for(Course c : userCourses) {
+				if (cid == c.getId()) {
+					userCourses.remove(c);
+				}
+			}
+		}
+	}
+	
 	//DELETE /users/{id}
 	// input -> a user id
 	// output -> return a specific users give an id
