@@ -1,4 +1,4 @@
-package com.codereachable.webservices.restfulwebservices.controllers.user;
+package com.codereachable.webservices.restfulwebservices.v2.controllers.user;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,17 +6,22 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import com.codereachable.webservices.restfulwebservices.content.Course;
-import com.codereachable.webservices.restfulwebservices.controllers.user.details.Details;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2;
+import com.codereachable.webservices.restfulwebservices.v2.controllers.user.details.Details;
+
+@Document( collection = "Users")
 public class UserV2 {
 
 	// Fields
-	private Integer _id;
+	@Id
+	private String _id;
 	@NotNull
 	private Details _details;
 	@NotNull
-	private List<Course> _courses = new ArrayList<>();
+	private List<CourseV2> _courses = new ArrayList<>();
 //	// added global courses to simulate a DB for testing purposes
 //	{
 //		_courses.add(new Course(12, "C++", "A simple C++ description"));
@@ -29,17 +34,17 @@ public class UserV2 {
 	 */
 	protected UserV2() {}
 	//Constructor
-	public UserV2(Integer id, String firstName, String lastName, Date date, String email) {
-		this._id = id;
+	public UserV2(String i, String firstName, String lastName, Date date, String email) {
+		this._id = i;
 		this._details = new Details(firstName, lastName, date, email);
 	}
 
 	// Getters & Setters
-	public Integer getId() {
+	public String getId() {
 		return _id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this._id = id;
 	}
 	
@@ -51,11 +56,11 @@ public class UserV2 {
 		this._details = details;
 	}
 	
-	public List<Course> getCourses() {
+	public List<CourseV2> getCourses() {
 		return _courses;
 	}
 	
-	public void setCourse(Course c) {
+	public void setCourse(CourseV2 c) {
 		this._courses.add(c);
 	}
 	

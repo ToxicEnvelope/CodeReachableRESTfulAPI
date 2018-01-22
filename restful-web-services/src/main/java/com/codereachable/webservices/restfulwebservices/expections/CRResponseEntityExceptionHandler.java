@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.codereachable.webservices.restfulwebservices.content.CourseNotFoundException;
-import com.codereachable.webservices.restfulwebservices.controllers.user.UserNotFoundException;
+import com.codereachable.webservices.restfulwebservices.v1.content.CourseV1NotFoundException;
+import com.codereachable.webservices.restfulwebservices.v1.controllers.user.UserV1NotFoundException;
+
+import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2NotFoundException;
+import com.codereachable.webservices.restfulwebservices.v2.controllers.user.UserV2NotFoundException;
 
 /*
  * This class will be responsible for 
@@ -27,6 +30,8 @@ import com.codereachable.webservices.restfulwebservices.controllers.user.UserNot
 @RestController
 public class CRResponseEntityExceptionHandler 
 extends ResponseEntityExceptionHandler {
+	
+	// GENERIC ON ALL VERSIONS
 	
 	// Handles all exceptions 
 	@ExceptionHandler(Exception.class)
@@ -56,27 +61,55 @@ extends ResponseEntityExceptionHandler {
 				ex.getBindingResult().getFieldError().toString());
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.BAD_REQUEST);
 	}
-	
-	// Handles UserNotFoundException
-	@ExceptionHandler(UserNotFoundException.class)
-	public final ResponseEntity<Object> handleUserExceptions
-	(UserNotFoundException ex, WebRequest req) {
-		ExceptionResponse exceptionResponse = new ExceptionResponse(
-				new Date(),
-				ex.getMessage(), 
-				req.getDescription(false));
-		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
-	}
-	
-	// Handles CourseNotFoundException
-	@ExceptionHandler(CourseNotFoundException.class)
-	public final ResponseEntity<Object> handleCourseExceptions
-	(CourseNotFoundException ex, WebRequest req) {
-		ExceptionResponse exceptionResponse = new ExceptionResponse(
-				new Date(),
-				ex.getMessage(), 
-				req.getDescription(false));
-		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
-	}
 
+	
+	// ---- VERSION 1 ----
+	
+	// Handles UserV1NotFoundException
+		@ExceptionHandler(UserV1NotFoundException.class)
+		public final ResponseEntity<Object> handleUserExceptions
+		(UserV1NotFoundException ex, WebRequest req) {
+			ExceptionResponse exceptionResponse = new ExceptionResponse(
+					new Date(),
+					ex.getMessage(), 
+					req.getDescription(false));
+			return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
+		}
+		
+		// Handles CourseV1NotFoundException
+		@ExceptionHandler(CourseV1NotFoundException.class)
+		public final ResponseEntity<Object> handleCourseExceptions
+		(CourseV1NotFoundException ex, WebRequest req) {
+			ExceptionResponse exceptionResponse = new ExceptionResponse(
+					new Date(),
+					ex.getMessage(), 
+					req.getDescription(false));
+			return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
+		}
+
+	
+	// ---- VERSION 2 ---- 
+	
+	// Handles UserV2NotFoundException
+	@ExceptionHandler(UserV2NotFoundException.class)
+	public final ResponseEntity<Object> handleUserExceptions
+	(UserV2NotFoundException ex, WebRequest req) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(
+				new Date(),
+				ex.getMessage(), 
+				req.getDescription(false));
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	// Handles CourseV2NotFoundException
+	@ExceptionHandler(CourseV2NotFoundException.class)
+	public final ResponseEntity<Object> handleCourseExceptions
+	(CourseV2NotFoundException ex, WebRequest req) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(
+				new Date(),
+				ex.getMessage(), 
+				req.getDescription(false));
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+	
 }

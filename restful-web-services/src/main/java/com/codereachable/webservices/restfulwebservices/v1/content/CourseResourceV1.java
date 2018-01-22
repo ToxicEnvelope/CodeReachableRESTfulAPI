@@ -1,4 +1,4 @@
-package com.codereachable.webservices.restfulwebservices.content;
+package com.codereachable.webservices.restfulwebservices.v1.content;
 
 import java.net.URI;
 import java.util.List;
@@ -16,31 +16,31 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-public class CourseResource {
+public class CourseResourceV1 {
 	
 	// Fields
 	@Autowired
-	private CourseDaoService service;
+	private CourseDaoServiceV1 service;
 	
 	//GET /courses
 	// output -> retrieve all courses
-	@GetMapping("/courses")
-	public List<Course> retrieveAllCourse() {
+	@GetMapping("/v1/courses")
+	public List<CourseV1> retrieveAllCourse() {
 		return service.findAll();
 	}
 	
 	//GET /courses/{id}
 	// input -> a course id
 	// output -> return a specific course given an id
-	@GetMapping("/courses/{id}")
-	public Course retrieveCourse(@PathVariable int id) {
-		Course c = service.findById(id);
+	@GetMapping("/v1/courses/{id}")
+	public CourseV1 retrieveCourse(@PathVariable int id) {
+		CourseV1 c = service.findById(id);
 		if (c == null) {
 			/*
 			 * When Course object is null we throw a 
 			 * CourseNotFoundException
 			 */
-			throw new CourseNotFoundException("id=" + id);
+			throw new CourseV1NotFoundException("id=" + id);
 		}
 		return c;
 	}
@@ -48,24 +48,24 @@ public class CourseResource {
 	//DELETE /courses/{id}
 	// input -> a course id
 	// output -> return a specific course given an id
-	@DeleteMapping("/courses/{id}")
+	@DeleteMapping("/v1/courses/{id}")
 	public void deleteCourse(@PathVariable int id) {
-		Course c = service.deleteById(id);
+		CourseV1 c = service.deleteById(id);
 		if (c == null) {
 			/*
 			 * When Course object is null we throw a 
 			 * CourseNotFoundException
 			 */
-			throw new CourseNotFoundException("id=" + id);
+			throw new CourseV1NotFoundException("id=" + id);
 		}
 	}
 	
 	//POST
 	// input -> course object
 	// output -> CREATED & return the current URI
-	@PostMapping("/courses")
-	public ResponseEntity<Object> createCourse(@Valid @RequestBody Course c) {
-		Course savedCourse = service.save(c);
+	@PostMapping("/v1/courses")
+	public ResponseEntity<Object> createCourse(@Valid @RequestBody CourseV1 c) {
+		CourseV1 savedCourse = service.save(c);
 		/*  Build a URI object to represent the CREATED
 		 * new Course and return his ResponseEntity
 		 * 

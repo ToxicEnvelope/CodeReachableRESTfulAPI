@@ -1,4 +1,4 @@
-package com.codereachable.webservices.restfulwebservices.content;
+package com.codereachable.webservices.restfulwebservices.v1.content;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -7,28 +7,28 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CourseDaoService {
+public class CourseDaoServiceV1 {
 
 	// Fields
-	private static List<Course> courses = new ArrayList<>();
+	private static List<CourseV1> courses = new ArrayList<>();
 	private static Integer courseCount = 5;
 	
 	// Static array list to simulate database
 	static {
-		courses.add(new Course(1, "Java", "A simple Java course"));
-		courses.add(new Course(2, "Python", "A simple Python course"));
-		courses.add(new Course(3, "JavaScript", "A simple JavaScript course"));
-		courses.add(new Course(4, "DOM", "A simple DOM course"));
-		courses.add(new Course(5, "Database", "A simple Database course"));
+		courses.add(new CourseV1(1, "Java", "A simple Java course"));
+		courses.add(new CourseV1(2, "Python", "A simple Python course"));
+		courses.add(new CourseV1(3, "JavaScript", "A simple JavaScript course"));
+		courses.add(new CourseV1(4, "DOM", "A simple DOM course"));
+		courses.add(new CourseV1(5, "Database", "A simple Database course"));
 	}
 	
 	// findAll -> return all courses in DB
-	public List<Course> findAll() {
+	public List<CourseV1> findAll() {
 		return courses;
 	}
 	
 	// save -> save a new course to DB, and return its entity
-	public Course save(Course c) {
+	public CourseV1 save(CourseV1 c) {
 		if (c.getId() == null) {
 			c.setId(++courseCount);
 		}
@@ -40,8 +40,8 @@ public class CourseDaoService {
 	}
 	
 	// findOne -> find specific course based on the id from DB
-	public Course findById(Integer id) {
-		for(Course c : courses) {
+	public CourseV1 findById(int id) {
+		for(CourseV1 c : courses) {
 			if (c.getId() == id) {
 				return c;
 			}
@@ -50,10 +50,10 @@ public class CourseDaoService {
 	}
 	
 	// deleteById -> delete a specific user based on the id from DB
-	public Course deleteById(Integer id) {
-		Iterator<Course> iterator = courses.iterator();
+	public CourseV1 deleteById(int id) {
+		Iterator<CourseV1> iterator = courses.iterator();
 		while(iterator.hasNext()) {
-			Course c = iterator.next();
+			CourseV1 c = iterator.next();
 			if (c.getId() == id) {
 				iterator.remove();
 				return c;

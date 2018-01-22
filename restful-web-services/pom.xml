@@ -57,6 +57,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- MONGO-DB -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb-parent -->
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-mongodb</artifactId>
+		</dependency>
+				
+		
 	</dependencies>
 
 <!-- BUILD -->

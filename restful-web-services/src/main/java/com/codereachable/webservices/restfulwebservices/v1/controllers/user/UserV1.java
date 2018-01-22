@@ -1,4 +1,4 @@
-package com.codereachable.webservices.restfulwebservices.controllers.user;
+package com.codereachable.webservices.restfulwebservices.v1.controllers.user;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-import com.codereachable.webservices.restfulwebservices.content.Course;
+import com.codereachable.webservices.restfulwebservices.v1.content.CourseV1;
 
 public class UserV1 {
 
@@ -29,7 +29,7 @@ public class UserV1 {
 	@NotNull
 	private Integer _score;
 	@NotNull
-	private List<Course> _courses = new ArrayList<>();
+	private List<CourseV1> _courses = new ArrayList<>();
 //	// added global courses to simulate a DB for testing purposes
 //	{
 //		_courses.add(new Course(12, "C++", "A simple C++ description"));
@@ -92,11 +92,11 @@ public class UserV1 {
 		this._score = s;
 	}
 	
-	public List<Course> getCourses() {
+	public List<CourseV1> getCourses() {
 		return _courses;
 	}
 	
-	public void setCourse(Course c) {
+	public void setCourse(CourseV1 c) {
 		this._courses.add(c);
 	}
 	

@@ -1,7 +1,8 @@
-package com.codereachable.webservices.restfulwebservices.controllers.user;
+package com.codereachable.webservices.restfulwebservices.v2.controllers.user;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -15,37 +16,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.codereachable.webservices.restfulwebservices.content.Course;
-import com.codereachable.webservices.restfulwebservices.content.CourseDaoService;
+import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2;
+import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.CourseV2Repository;
+import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.UserV2Repository;
 
 @RestController
-public class UserResource {
+public class UserResourceV2 {
  
 	// Fields
+//	@Autowired
+//	private UserDaoServiceV2 service;
+//	@Autowired
+//	private CourseDaoServiceV2 cservice;
 	@Autowired
-	private UserDaoService service;
+	private UserV2Repository userRepository;
 	@Autowired
-	private CourseDaoService cservice;
+	private CourseV2Repository courseRepository;
 	
 	//GET /users
 	// output -> retrieve all users
-	@GetMapping("/users")
+	@GetMapping("/v2/users")
 	public List<UserV2> retrieveAllUsers() {
-		return service.findAll();
+		return userRepository.findAll();
 	}
 	
 	//GET /users/{id}
 	// input -> a user id
 	// output -> return a specific user give an id
-	@GetMapping("/users/{id}")
-	public UserV2 retrieveUser(@PathVariable int id) {
-		UserV2 u = service.findById(id);
-		if (u == null) {
+	@GetMapping("/v2/users/{id}")
+	public Optional<UserV2> retrieveUser(@PathVariable String id) {
+		Optional<UserV2> u = userRepository.findById(id);
+		if (!u.isPresent()) {
 			/*
 			 * When User object is null we throw a
 			 * UserNotFoundException 
 			 */
-			throw new UserNotFoundException("id=" + id);
+			throw new UserV2NotFoundException("id=" + id);
 		}
 		return u;
 	}
@@ -53,27 +59,27 @@ public class UserResource {
 	//GET /users/{id}/course-list
 	// input -> user id
 	// output -> return all course from a specific user
-	@GetMapping("/users/{id}/course-list")
-	public List<Course> retriveUserCourses(@PathVariable int id) {
-		UserV2 u = service.findById(id);
-		if (u == null) {
-			throw new UserNotFoundException("id=" + id);	
+	@GetMapping("/v2/users/{id}/course-list")
+	public List<CourseV2> retriveUserCourses(@PathVariable String id) {
+		Optional<UserV2> u = userRepository.findById(id);
+		if (!u.isPresent()) {
+			throw new UserV2NotFoundException("id=" + id);	
 		}
-		return u.getCourses();
+		return u.get().getCourses();
 	}
 	
 	//DELETE /users/{uid}/course-list/{cid}
 	// input -> user id , course id
 	// output -> delete a specific course of a specific user by id
-	@DeleteMapping("/users/{uid}/course-list/{cid}")
-	public void deleteUserCourse(@PathVariable int uid, @PathVariable int cid) {
-		UserV2 u = service.findById(uid);
-		if (u == null) {
-			throw new UserNotFoundException("uid=" + uid);
+	@DeleteMapping("/v2/users/{uid}/course-list/{cid}")
+	public void deleteUserCourse(@PathVariable String uid, @PathVariable String cid) {
+		Optional<UserV2> u = userRepository.findById(uid);
+		if (!u.isPresent()) {
+			throw new UserV2NotFoundException("uid=" + uid);
 		}
 		else {
-			List<Course> userCourses = u.getCourses();
-			for(Course c : userCourses) {
+			List<CourseV2> userCourses = u.get().getCourses();
+			for(CourseV2 c : userCourses) {
 				if (cid == c.getId()) {
 					userCourses.remove(c);
 				}
@@ -84,24 +90,26 @@ public class UserResource {
 	//DELETE /users/{id}
 	// input -> a user id
 	// output -> return a specific users give an id
-	@DeleteMapping("/users/{id}")
-	public void deleteUser(@PathVariable int id) {
-		UserV2 u = service.deleteById(id);
-		if (u == null) {
+	@DeleteMapping("/v2/users/{id}")
+	public void deleteUser(@PathVariable String id) {
+		//UserV2 u = userRepository.deleteById(id);
+		Optional<UserV2> u = userRepository.findById(id);
+		if (!u.isPresent()) {
 			/*
 			 * When User object is null we throw a
 			 * UserNotFoundException 
 			 */
-			throw new UserNotFoundException("id=" + id);
+			throw new UserV2NotFoundException("id=" + id);
 		}
+		userRepository.deleteById(id);
 	}
 	
 	//POST 
 	// input -> user object
 	// output -> CREATED & Return the current URI
-	@PostMapping("/users")
+	@PostMapping("/v2/users")
 	public ResponseEntity<Object> createUser(@Valid @RequestBody UserV2 u) {
-		UserV2 savedUser = service.save(u);
+		UserV2 savedUser = userRepository.save(u);
 		/*  Build a URI object to represent the CREATED
 		 * new User and return his ResponseEntity
 		 * 
@@ -123,27 +131,27 @@ public class UserResource {
 	//POST
 	// input -> course object
 	// output -> CREATED & Return the current uri
-	@PostMapping("/users/{uid}/add-course")
-	public ResponseEntity<Object> addCourseToUser(@PathVariable int uid, @Valid @RequestBody Course c) {
-		UserV2 currentUser = service.findById(uid);
+	@PostMapping("/v2/users/{uid}/add-course")
+	public ResponseEntity<Object> addCourseToUser(@PathVariable String uid, @Valid @RequestBody CourseV2 c) {
+		Optional<UserV2> currentUser = userRepository.findById(uid);
 		/*
 		 * TODO : **Change the looping complexity**
 		 * -- Search a course in smaller lists!
 		 * -- get the cservice.findAll() -> List<Course> ,
 		 * -- device to X of sublists and iterate through until matches found 
 		 */
-		for(Course dbcourse : cservice.findAll()) {
+		for(CourseV2 dbcourse : courseRepository.findAll()) {
 			if (c.getCourseName() == dbcourse.getCourseName()) {
-				currentUser.setCourse(c);
+				currentUser.get().setCourse(c);
 			}
 			else if (c.getCourseName() != dbcourse.getCourseName()) {
-				currentUser.setCourse(cservice.save(c));
+				currentUser.get().setCourse(courseRepository.save(c));
 			}
 		}
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 		     	.path("/{cid}")
-		     	.buildAndExpand(currentUser.getId()).toUri();
+		     	.buildAndExpand(currentUser.get().getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 }

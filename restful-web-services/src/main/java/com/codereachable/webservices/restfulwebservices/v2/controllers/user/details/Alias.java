@@ -1,4 +1,4 @@
-package com.codereachable.webservices.restfulwebservices.controllers.user.details;
+package com.codereachable.webservices.restfulwebservices.v2.controllers.user.details;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

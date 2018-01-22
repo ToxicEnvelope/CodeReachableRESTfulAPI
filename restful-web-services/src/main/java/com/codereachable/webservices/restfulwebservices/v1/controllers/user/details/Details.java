@@ -1,4 +1,4 @@
-package com.codereachable.webservices.restfulwebservices.controllers.user.details;
+package com.codereachable.webservices.restfulwebservices.v1.controllers.user.details;
 
 import java.util.Date;
 
