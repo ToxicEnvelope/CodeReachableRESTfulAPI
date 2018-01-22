@@ -42,14 +42,11 @@ This is not mandatory but it will make you life easier with a nice GUI structure
 ---
 In addition, you will have to make sure that your MongoDB is running unless exceptions will appear and the mocroservices will not be able to start.
 Use this command to start MongoDB
-* mongd
+* mongod
 or
 * mongo --host 127.0.0.1:27017
 
-## Built With
----
-Maven - Dependency Management
-
 ## Authors
 ---
-Yahav N. Hoffman - CEO - CodeReachable
+Yahav N. Hoffman, CEO - CodeReachable
+

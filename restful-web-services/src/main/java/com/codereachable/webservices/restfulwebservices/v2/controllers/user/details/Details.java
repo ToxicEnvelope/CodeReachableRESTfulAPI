@@ -59,6 +59,6 @@ public class Details {
 	}
 	
 	public String toString() {
-		return "[alias=" + getAlias() + ", birthdate=" + getDateOfBirth() +", email=" + getEmail() + "]";
+		return "[alias=" + getAlias() + ", birthdate=" + getDateOfBirth() +", email=" + getEmail() + ", score=" + getScore() + "]";
 	}
 }
