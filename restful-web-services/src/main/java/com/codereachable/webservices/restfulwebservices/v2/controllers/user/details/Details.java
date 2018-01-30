@@ -7,7 +7,7 @@ import javax.validation.constraints.Past;
 
 public class Details {
 
-	@NotNull
+//	@NotNull
 	private Alias _alias;
 	@Past
 	private Date _bDate;
@@ -18,8 +18,9 @@ public class Details {
 	@NotNull
 	private Integer _score;
 	
-	public Details(String firstname, String lastname, Date date, String email) {
-		this._alias = new Alias(firstname, lastname);
+	public Details() {}
+	public Details(Alias alias, Date date, String email) {
+		this._alias = alias;
 		this._bDate = date;
 		this._email = email;
 		this._score = 0;

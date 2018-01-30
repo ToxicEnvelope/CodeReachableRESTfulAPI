@@ -1,17 +1,17 @@
 package com.codereachable.webservices.restfulwebservices.v2.controllers.user;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Service;
 
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2;
 import com.codereachable.webservices.restfulwebservices.v2.controllers.user.details.Details;
-
+@Service
 @Document( collection = "Users")
 public class UserV2 {
 
@@ -32,11 +32,11 @@ public class UserV2 {
 	 * This default constructor is responsible of POST handling and User object creating
 	 * Will handle user creation and not return a 500 response .
 	 */
-	protected UserV2() {}
+	public UserV2() {}
 	//Constructor
-	public UserV2(String i, String firstName, String lastName, Date date, String email) {
-		this._id = i;
-		this._details = new Details(firstName, lastName, date, email);
+	public UserV2(String id, Details details) {
+		this._id = id;
+		this._details = details;
 	}
 
 	// Getters & Setters
@@ -66,6 +66,6 @@ public class UserV2 {
 	
 	@Override
 	public String toString() {
-		return "User [id=" + getId() + ", details=" + getDetails() + ", course=" + getCourses() +"]";
+		return "[id=" + getId() + ", details=" + getDetails() + ", course=" + getCourses() +"]";
 	}
 }

@@ -33,7 +33,7 @@ public class CourseDaoServiceV2 {
 			c.setId(Integer.toString(++courseCount));
 		}
 		if (c.isActive() == null) {
-			c.activateCourse(false);
+			c.setCourseActivation(false);
 		}
 		courses.add(c);
 		return c;

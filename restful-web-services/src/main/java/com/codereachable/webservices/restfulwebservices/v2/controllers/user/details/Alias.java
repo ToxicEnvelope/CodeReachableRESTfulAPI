@@ -12,6 +12,7 @@ public class Alias {
 	@Size(min=6, max=15)
 	private String _last;
 	
+	public Alias() {}
 	public Alias(String fname, String lname) {
 		this._first = fname;
 		this._last = lname;

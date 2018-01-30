@@ -1,11 +1,11 @@
 package com.codereachable.webservices.restfulwebservices.v2.content;
 
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.IndexDirection;
-import org.springframework.data.mongodb.core.index.Indexed;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Courses")
@@ -21,23 +21,23 @@ public class CourseV2 {
 	@NotNull
 	@Size(min=20, max=100, message="Course Details excepts between 20 to 100 charachters")
 	private String _courseDetails;
-	@Indexed(direction = IndexDirection.ASCENDING)
+	@NotNull
 	private Integer _price;
-	private Boolean _isActive;
+	@NotNull
+	private Boolean _isActive = false;
 	
 	// Default Constructor
 	/*
 	 * This default constructor is responsible of POST handling and User object creating
 	 * Will handle user creation and not return a 500 response .
 	 */
-	protected CourseV2() {}
+	public CourseV2() {}
 	// Constructor
 	public CourseV2(String id, String cname, String details, int price) {
 		this._courseId = id;
 		this._courseName = cname;
 		this._courseDetails = details;
-		this._price = price;
-		this._isActive = false;	
+		this._price = price;		
 	}
 	
 	// Getters & Setters
@@ -77,12 +77,12 @@ public class CourseV2 {
 		return _isActive;
 	}
 	
-	public void activateCourse(Boolean b) {
+	public void setCourseActivation(Boolean b) {
 		this._isActive = b;
 	}
 	
 	@Override
 	public String toString() {
-		return "User [id=" + getId() + ", name=" + getCourseName() + ", course details=" + getCourseDetails() + ", price=" + getCoursePrice() + "]";
+		return "[id=" + getId() + ", course name=" + getCourseName() + ", course details=" + getCourseDetails() + ", price=" + getCoursePrice() + "]";
 	}
 }
