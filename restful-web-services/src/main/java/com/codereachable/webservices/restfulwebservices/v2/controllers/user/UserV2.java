@@ -60,12 +60,12 @@ public class UserV2 {
 		return _courses;
 	}
 	
-	public void setCourse(CourseV2 c) {
+	public void addCourse(CourseV2 c) {
 		this._courses.add(c);
 	}
 	
 	@Override
 	public String toString() {
-		return "[id=" + getId() + ", details=" + getDetails() + ", course=" + getCourses() +"]";
+		return "User : {id=" + getId() + ", details=" + getDetails() + ", course=" + getCourses() +"}";
 	}
 }

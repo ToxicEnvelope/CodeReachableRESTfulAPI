@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2;
 import com.codereachable.webservices.restfulwebservices.v2.controllers.user.UserV2;
+import com.codereachable.webservices.restfulwebservices.v2.controllers.user.crypto.UserSecret;
 import com.codereachable.webservices.restfulwebservices.v2.controllers.user.details.Alias;
 import com.codereachable.webservices.restfulwebservices.v2.controllers.user.details.Details;
 import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.CourseV2Repository;
@@ -47,9 +48,9 @@ public class DbSeeder implements CommandLineRunner {
 
 			
 		// Static Users to be seeded into MongoDB
-		UserV2 adam = new UserV2("1", new Details( new Alias("Adam", "Eden"), new Date(), "adam@yahoo.com"));
-		UserV2 eve = new UserV2("2", new Details( new Alias("Eve", "Eden"), new Date(), "eve@facebook.com"));
-		UserV2 jack = new UserV2("3", new Details( new Alias("Jack", "Sparro"), new Date(), "jack@live.com"));
+		UserV2 adam = new UserV2("1", new Details( new Alias("Adam", "Eden"), new Date(), "adam@yahoo.com", new UserSecret("A1b2C3d4")));
+		UserV2 eve = new UserV2("2", new Details( new Alias("Eve", "Eden"), new Date(), "eve@facebook.com", new UserSecret("1234abcd")));
+		UserV2 jack = new UserV2("3", new Details( new Alias("Jack", "Sparro"), new Date(), "jack@live.com",new UserSecret("A4C2D1B3")));
 		
 		// drop all courses
 		userRepository.deleteAll();

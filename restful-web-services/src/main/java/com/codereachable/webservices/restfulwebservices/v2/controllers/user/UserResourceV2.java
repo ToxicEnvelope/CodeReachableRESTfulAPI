@@ -122,7 +122,6 @@ public class UserResourceV2 {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	
 	/*
 	 * TODO : Course is CREATED but response is 500
 	 * FIX response CREATED issue.
@@ -133,25 +132,29 @@ public class UserResourceV2 {
 	// output -> CREATED & Return the current uri
 	@PostMapping("/v2/users/{uid}/add-course")
 	public ResponseEntity<Object> addCourseToUser(@PathVariable String uid, @Valid @RequestBody CourseV2 c) {
-		Optional<UserV2> currentUser = userRepository.findById(uid);
+		Optional<UserV2> optional = userRepository.findById(uid);
 		/*
 		 * TODO : **Change the looping complexity**
 		 * -- Search a course in smaller lists!
 		 * -- get the cservice.findAll() -> List<Course> ,
 		 * -- device to X of sublists and iterate through until matches found 
 		 */
-		for(CourseV2 dbcourse : courseRepository.findAll()) {
-			if (c.getCourseName() == dbcourse.getCourseName()) {
-				currentUser.get().setCourse(c);
-			}
-			else if (c.getCourseName() != dbcourse.getCourseName()) {
-				currentUser.get().setCourse(courseRepository.save(c));
-			}
+		if (!optional.isPresent()) {
+			throw new UserV2NotFoundException("id=" + uid);
+		}
+		else {
+			optional.ifPresent(user -> {
+				for(CourseV2 cv2 : courseRepository.findAll()) {
+					if (cv2.getCUID().equals(c.getCUID())) {
+						user.addCourse(c);
+					}
+				}
+			});
 		}
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
-		     	.path("/{cid}")
-		     	.buildAndExpand(currentUser.get().getId()).toUri();
+//		     	.path("/{cid}")
+		     	.buildAndExpand(optional.get().getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 }

@@ -36,6 +36,6 @@ public class Alias {
 	}
 	
 	public String toString() {
-		return "[firstname=" + getFirstName() + ", lastname=" + getLastName() + "]";
+		return "Alias : {firstname=" + getFirstName() + ", lastname=" + getLastName() + "}";
 	}
 }

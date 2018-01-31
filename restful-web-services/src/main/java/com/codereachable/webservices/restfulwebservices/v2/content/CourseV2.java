@@ -1,20 +1,23 @@
 package com.codereachable.webservices.restfulwebservices.v2.content;
 
 
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Document(collection = "Courses")
+@JsonIgnoreProperties({"active"})
 public class CourseV2 {
 
-	
 	// Fields 
 	@Id
-	private String _courseId;
+	private String _courseId;  
+	private Integer _cuid;
 	@NotNull
 	@Size(min=2, max=10, message="Course Name excepts between 2 to 10 charachters")
 	private String _courseName;
@@ -37,7 +40,8 @@ public class CourseV2 {
 		this._courseId = id;
 		this._courseName = cname;
 		this._courseDetails = details;
-		this._price = price;		
+		this._price = price;	
+		this._cuid = ((cname.length() * 4) / 2);
 	}
 	
 	// Getters & Setters
@@ -47,6 +51,10 @@ public class CourseV2 {
 	
 	public void setId(String id) {
 		this._courseId = id;
+	}
+	
+	public Integer getCUID() {
+		return _cuid;
 	}
 	
 	public String getCourseName() {
@@ -83,6 +91,6 @@ public class CourseV2 {
 	
 	@Override
 	public String toString() {
-		return "[id=" + getId() + ", course name=" + getCourseName() + ", course details=" + getCourseDetails() + ", price=" + getCoursePrice() + "]";
+		return "Course : {id=" + getId() + ", course name=" + getCourseName() + ", course details=" + getCourseDetails() + ", price=" + getCoursePrice() + "}";
 	}
 }

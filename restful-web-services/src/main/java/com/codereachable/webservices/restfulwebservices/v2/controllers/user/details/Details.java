@@ -5,6 +5,10 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import com.codereachable.webservices.restfulwebservices.v2.controllers.user.crypto.UserSecret;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"secret"})
 public class Details {
 
 //	@NotNull
@@ -17,13 +21,16 @@ public class Details {
 	private String _email;
 	@NotNull
 	private Integer _score;
+	@NotNull
+	private UserSecret _secret;
 	
 	public Details() {}
-	public Details(Alias alias, Date date, String email) {
+	public Details(Alias alias, Date date, String email, UserSecret secret) {
 		this._alias = alias;
 		this._bDate = date;
 		this._email = email;
 		this._score = 0;
+		this._secret = secret;
 	}
 	
 	// Getters & Setters
@@ -59,7 +66,15 @@ public class Details {
 		this._score = s;
 	}
 	
+	public UserSecret getSecret() {
+		return _secret;
+	}
+	
+	public void setSecret(UserSecret phrase) {
+		this._secret = phrase;
+	}
+	
 	public String toString() {
-		return "[alias=" + getAlias() + ", birthdate=" + getDateOfBirth() +", email=" + getEmail() + ", score=" + getScore() + "]";
+		return "Details : {alias=" + getAlias() + ", birthdate=" + getDateOfBirth() +", email=" + getEmail() + ", score=" + getScore() + ", secret=" + getSecret() + "}";
 	}
 }
