@@ -1,4 +1,5 @@
-package com.codereachable.webservices.restfulwebservices.v2.controllers.user.crypto;
+
+package com.codereachable.webservices.restfulwebservices.v2.crypto;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -8,7 +9,7 @@ import java.util.logging.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
-public class PasswordEncryptor {
+public class Encryptor {
    private static MessageDigest md;
    private static BCryptPasswordEncoder encoder;
 	   
@@ -25,7 +26,7 @@ public class PasswordEncryptor {
         return EncodeWithBCrypt(sb.toString());
     } 
     catch (NoSuchAlgorithmException ex) {
-        Logger.getLogger(PasswordEncryptor.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(Encryptor.class.getName()).log(Level.SEVERE, null, ex);
     }
         return null;
    }

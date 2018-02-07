@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
-import com.codereachable.webservices.restfulwebservices.v2.controllers.user.crypto.UserSecret;
+import com.codereachable.webservices.restfulwebservices.v2.controllers.user.UserV2Secret;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties({"secret"})
@@ -22,10 +22,10 @@ public class Details {
 	@NotNull
 	private Integer _score;
 	@NotNull
-	private UserSecret _secret;
+	private UserV2Secret _secret;
 	
 	public Details() {}
-	public Details(Alias alias, Date date, String email, UserSecret secret) {
+	public Details(Alias alias, Date date, String email, UserV2Secret secret) {
 		this._alias = alias;
 		this._bDate = date;
 		this._email = email;
@@ -66,11 +66,11 @@ public class Details {
 		this._score = s;
 	}
 	
-	public UserSecret getSecret() {
+	public UserV2Secret getSecret() {
 		return _secret;
 	}
 	
-	public void setSecret(UserSecret phrase) {
+	public void setSecret(UserV2Secret phrase) {
 		this._secret = phrase;
 	}
 	

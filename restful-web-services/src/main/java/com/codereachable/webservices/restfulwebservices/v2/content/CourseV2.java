@@ -17,7 +17,6 @@ public class CourseV2 {
 	// Fields 
 	@Id
 	private String _courseId;  
-	private Integer _cuid;
 	@NotNull
 	@Size(min=2, max=10, message="Course Name excepts between 2 to 10 charachters")
 	private String _courseName;
@@ -40,8 +39,7 @@ public class CourseV2 {
 		this._courseId = id;
 		this._courseName = cname;
 		this._courseDetails = details;
-		this._price = price;	
-		this._cuid = ((cname.length() * 4) / 2);
+		this._price = price;	 
 	}
 	
 	// Getters & Setters
@@ -51,10 +49,6 @@ public class CourseV2 {
 	
 	public void setId(String id) {
 		this._courseId = id;
-	}
-	
-	public Integer getCUID() {
-		return _cuid;
 	}
 	
 	public String getCourseName() {

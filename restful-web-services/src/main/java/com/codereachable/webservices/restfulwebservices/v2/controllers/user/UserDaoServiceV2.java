@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.codereachable.webservices.restfulwebservices.v2.controllers.user.crypto.UserSecret;
 import com.codereachable.webservices.restfulwebservices.v2.controllers.user.details.Alias;
 import com.codereachable.webservices.restfulwebservices.v2.controllers.user.details.Details;
 
@@ -21,9 +20,9 @@ public class UserDaoServiceV2 {
 	
 	// Static array list to simulate database
 	static {
-		users.add(new UserV2("1",new Details( new Alias("Adam", "Eden"), new Date(), "adam@yahoo.com", new UserSecret(""))));
-		users.add(new UserV2("2", new Details( new Alias("Eve", "Eden"), new Date(), "eve@facebook.com", new UserSecret(""))));
-		users.add(new UserV2("3", new Details( new Alias("Jack", "Sparro"), new Date(), "jack@live.com", new UserSecret(""))));
+		users.add(new UserV2("1",new Details( new Alias("Adam", "Eden"), new Date(), "adam@yahoo.com", new UserV2Secret(""))));
+		users.add(new UserV2("2", new Details( new Alias("Eve", "Eden"), new Date(), "eve@facebook.com", new UserV2Secret(""))));
+		users.add(new UserV2("3", new Details( new Alias("Jack", "Sparro"), new Date(), "jack@live.com", new UserV2Secret(""))));
 	}
 	
 	// findAll -> return all users from DB

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,6 +23,7 @@ import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.Co
 import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.UserV2Repository;
 
 @RestController
+@RequestMapping("/v2/users")
 public class UserResourceV2 {
  
 	// Fields
@@ -35,7 +38,7 @@ public class UserResourceV2 {
 	
 	//GET /users
 	// output -> retrieve all users
-	@GetMapping("/v2/users")
+	@GetMapping("/")
 	public List<UserV2> retrieveAllUsers() {
 		return userRepository.findAll();
 	}
@@ -43,7 +46,7 @@ public class UserResourceV2 {
 	//GET /users/{id}
 	// input -> a user id
 	// output -> return a specific user give an id
-	@GetMapping("/v2/users/{id}")
+	@GetMapping("/{id}")
 	public Optional<UserV2> retrieveUser(@PathVariable String id) {
 		Optional<UserV2> u = userRepository.findById(id);
 		if (!u.isPresent()) {
@@ -59,7 +62,7 @@ public class UserResourceV2 {
 	//GET /users/{id}/course-list
 	// input -> user id
 	// output -> return all course from a specific user
-	@GetMapping("/v2/users/{id}/course-list")
+	@GetMapping("/{id}/course-list")
 	public List<CourseV2> retriveUserCourses(@PathVariable String id) {
 		Optional<UserV2> u = userRepository.findById(id);
 		if (!u.isPresent()) {
@@ -71,7 +74,7 @@ public class UserResourceV2 {
 	//DELETE /users/{uid}/course-list/{cid}
 	// input -> user id , course id
 	// output -> delete a specific course of a specific user by id
-	@DeleteMapping("/v2/users/{uid}/course-list/{cid}")
+	@DeleteMapping("/{uid}/course-list/{cid}")
 	public void deleteUserCourse(@PathVariable String uid, @PathVariable String cid) {
 		Optional<UserV2> u = userRepository.findById(uid);
 		if (!u.isPresent()) {
@@ -90,7 +93,7 @@ public class UserResourceV2 {
 	//DELETE /users/{id}
 	// input -> a user id
 	// output -> return a specific users give an id
-	@DeleteMapping("/v2/users/{id}")
+	@DeleteMapping("/{id}")
 	public void deleteUser(@PathVariable String id) {
 		//UserV2 u = userRepository.deleteById(id);
 		Optional<UserV2> u = userRepository.findById(id);
@@ -107,7 +110,7 @@ public class UserResourceV2 {
 	//POST 
 	// input -> user object
 	// output -> CREATED & Return the current URI
-	@PostMapping("/v2/users")
+	@PostMapping("/")
 	public ResponseEntity<Object> createUser(@Valid @RequestBody UserV2 u) {
 		UserV2 savedUser = userRepository.save(u);
 		/*  Build a URI object to represent the CREATED
@@ -122,39 +125,22 @@ public class UserResourceV2 {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	/*
-	 * TODO : Course is CREATED but response is 500
-	 * FIX response CREATED issue.
-	 * When 
-	 */
-	//POST
-	// input -> course object
-	// output -> CREATED & Return the current uri
-	@PostMapping("/v2/users/{uid}/add-course")
+	//PUT
+	// input -> user id , course object
+	// output -> UPDATED & Return the current uri
+	@PutMapping("/{uid}/add-course")
 	public ResponseEntity<Object> addCourseToUser(@PathVariable String uid, @Valid @RequestBody CourseV2 c) {
-		Optional<UserV2> optional = userRepository.findById(uid);
-		/*
-		 * TODO : **Change the looping complexity**
-		 * -- Search a course in smaller lists!
-		 * -- get the cservice.findAll() -> List<Course> ,
-		 * -- device to X of sublists and iterate through until matches found 
-		 */
+		Optional<UserV2> optional = Optional.empty();
+		optional = userRepository.findById(uid);
 		if (!optional.isPresent()) {
 			throw new UserV2NotFoundException("id=" + uid);
 		}
-		else {
-			optional.ifPresent(user -> {
-				for(CourseV2 cv2 : courseRepository.findAll()) {
-					if (cv2.getCUID().equals(c.getCUID())) {
-						user.addCourse(c);
-					}
-				}
-			});
-		}
+		UserV2 currentUser = optional.get();
+		currentUser.addCourse(c);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
-//		     	.path("/{cid}")
-		     	.buildAndExpand(optional.get().getId()).toUri();
+				.path("/{cid}")
+		     	.buildAndExpand(currentUser).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 }
