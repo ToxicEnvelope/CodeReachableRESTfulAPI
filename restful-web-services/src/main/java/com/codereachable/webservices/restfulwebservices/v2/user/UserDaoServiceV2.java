@@ -1,4 +1,4 @@
-package com.codereachable.webservices.restfulwebservices.v2.controllers.user;
+package com.codereachable.webservices.restfulwebservices.v2.user;
 
 
 import java.util.ArrayList;
@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.codereachable.webservices.restfulwebservices.v2.controllers.user.details.Alias;
-import com.codereachable.webservices.restfulwebservices.v2.controllers.user.details.Details;
+import com.codereachable.webservices.restfulwebservices.v2.user.details.Alias;
+import com.codereachable.webservices.restfulwebservices.v2.user.details.Details;
 
 @Component
 public class UserDaoServiceV2 {

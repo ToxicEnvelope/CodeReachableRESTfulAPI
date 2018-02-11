@@ -17,7 +17,7 @@ import com.codereachable.webservices.restfulwebservices.v1.content.CourseV1NotFo
 import com.codereachable.webservices.restfulwebservices.v1.controllers.user.UserV1NotFoundException;
 
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2NotFoundException;
-import com.codereachable.webservices.restfulwebservices.v2.controllers.user.UserV2NotFoundException;
+import com.codereachable.webservices.restfulwebservices.v2.user.UserV2NotFoundException;
 
 /*
  * This class will be responsible for 

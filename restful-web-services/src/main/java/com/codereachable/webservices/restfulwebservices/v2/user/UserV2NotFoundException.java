@@ -1,4 +1,4 @@
-package com.codereachable.webservices.restfulwebservices.v2.controllers.user;
+package com.codereachable.webservices.restfulwebservices.v2.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

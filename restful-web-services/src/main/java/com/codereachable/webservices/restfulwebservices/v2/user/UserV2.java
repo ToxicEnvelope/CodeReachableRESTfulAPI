@@ -1,4 +1,4 @@
-package com.codereachable.webservices.restfulwebservices.v2.controllers.user;
+package com.codereachable.webservices.restfulwebservices.v2.user;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Service;
 
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2;
-import com.codereachable.webservices.restfulwebservices.v2.controllers.user.details.Details;
+import com.codereachable.webservices.restfulwebservices.v2.user.details.Details;
 @Service
 @Document( collection = "Users")
 public class UserV2 {

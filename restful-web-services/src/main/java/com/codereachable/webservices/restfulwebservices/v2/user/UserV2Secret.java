@@ -1,4 +1,4 @@
-package com.codereachable.webservices.restfulwebservices.v2.controllers.user;
+package com.codereachable.webservices.restfulwebservices.v2.user;
 
 import com.codereachable.webservices.restfulwebservices.v2.crypto.Encryptor;
 

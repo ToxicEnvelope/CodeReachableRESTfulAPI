@@ -9,10 +9,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2;
-import com.codereachable.webservices.restfulwebservices.v2.controllers.user.UserV2Secret;
-import com.codereachable.webservices.restfulwebservices.v2.controllers.user.UserV2;
-import com.codereachable.webservices.restfulwebservices.v2.controllers.user.details.Alias;
-import com.codereachable.webservices.restfulwebservices.v2.controllers.user.details.Details;
+import com.codereachable.webservices.restfulwebservices.v2.user.UserV2;
+import com.codereachable.webservices.restfulwebservices.v2.user.UserV2Secret;
+import com.codereachable.webservices.restfulwebservices.v2.user.details.Alias;
+import com.codereachable.webservices.restfulwebservices.v2.user.details.Details;
 import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.CourseV2Repository;
 import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.UserV2Repository;
 

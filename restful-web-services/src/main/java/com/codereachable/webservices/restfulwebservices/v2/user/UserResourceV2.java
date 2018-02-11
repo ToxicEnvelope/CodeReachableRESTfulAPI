@@ -1,4 +1,4 @@
-package com.codereachable.webservices.restfulwebservices.v2.controllers.user;
+package com.codereachable.webservices.restfulwebservices.v2.user;
 
 import java.net.URI;
 import java.util.List;

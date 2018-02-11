@@ -1,11 +1,12 @@
-package com.codereachable.webservices.restfulwebservices.v2.controllers.user.details;
+package com.codereachable.webservices.restfulwebservices.v2.user.details;
 
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
-import com.codereachable.webservices.restfulwebservices.v2.controllers.user.UserV2Secret;
+import com.codereachable.webservices.restfulwebservices.v2.user.UserV2Secret;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties({"secret"})
@@ -22,6 +23,7 @@ public class Details {
 	@NotNull
 	private Integer _score;
 	@NotNull
+	@Size(min=8, max=14)
 	private UserV2Secret _secret;
 	
 	public Details() {}
