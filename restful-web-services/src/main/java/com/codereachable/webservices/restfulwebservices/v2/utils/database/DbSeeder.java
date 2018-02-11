@@ -37,7 +37,7 @@ public class DbSeeder implements CommandLineRunner {
 		// drop all courses
 		courseRepository.deleteAll();
 		
-		// add the static courses to mongoDb
+		// add the static courses to mongoDb (Testing Data)
 		List<CourseV2> courses = new ArrayList<>();
 		courses.add(javaCourse);
 		courses.add(pythonCourse);
@@ -55,13 +55,12 @@ public class DbSeeder implements CommandLineRunner {
 		// drop all courses
 		userRepository.deleteAll();
 		
-		// add the static courses to mongoDb
+		// add the static users to mongoDb (Testing Data)
 		List<UserV2> users = new ArrayList<>();
 		users.add(adam);
 		users.add(eve);
 		users.add(jack);
 		userRepository.saveAll(users);
-		
 	}
 
 }

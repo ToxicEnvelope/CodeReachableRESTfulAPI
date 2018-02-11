@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.codereachable.webservices.restfulwebservices.sessions.SessionManager;
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2;
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2NotFoundException;
 import com.codereachable.webservices.restfulwebservices.v2.user.exceptions.UserV2NotFoundException;
@@ -39,8 +38,6 @@ public class UserResourceV2 {
 	private UserV2Repository userRepository;
 	@Autowired
 	private CourseV2Repository courseRepository;
-	
-	private SessionManager manager = new SessionManager();
 	
 	//GET /users
 	// output -> retrieve all users
@@ -173,20 +170,20 @@ public class UserResourceV2 {
 	// input -> email , key
 	// output -> return a User object
 	@GetMapping("/login/{email}/{key}")
-	public UserV2 makeLogin(@PathVariable String email, @PathVariable String key) {		
-		UserV2 user = null;
+	public UserV2 makeLogin(@PathVariable String email, @PathVariable String key) {
+		UserV2 targetUser = null;
 		List<UserV2> users = userRepository.findAll();
+		// Looking for the correct user in users by his email
 		for(UserV2 u : users) {
-			if (u.getDetails().getEmail().equals(email))
-			{
-				user = u;
+			if (u.getDetails().getEmail().equals(email)) {
+				targetUser = u;
 				break;
 			}
 		}
-		if (!user.getDetails().getSecret().getKey().equals(key)) {
+		// Check for user's key 
+		if (!targetUser.getDetails().getSecret().getKey().equals(key)) {
 			throw new UserV2UnauthorizedException("password=" + key); 
 		}
-		manager.addSession(user);
-		return user;
+		return targetUser;
 	}
 }
