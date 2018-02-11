@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2;
-//import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.CourseV2Repository;
+import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2NotFoundException;
+import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.CourseV2Repository;
 import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.UserV2Repository;
 
 @RestController
@@ -33,8 +34,8 @@ public class UserResourceV2 {
 //	private CourseDaoServiceV2 cservice;
 	@Autowired
 	private UserV2Repository userRepository;
-//	@Autowired
-//	private CourseV2Repository courseRepository;
+	@Autowired
+	private CourseV2Repository courseRepository;
 	
 	//GET /users
 	// output -> retrieve all users
@@ -130,14 +131,25 @@ public class UserResourceV2 {
 	// output -> UPDATED & Return the current uri
 	@PutMapping("/{uid}/add-course")
 	public ResponseEntity<Object> addCourseToUser(@PathVariable String uid, @Valid @RequestBody CourseV2 c) {
-		Optional<UserV2> optional = Optional.empty();
-		optional = userRepository.findById(uid);
-		if (!optional.isPresent()) {
+		// Optional User
+		Optional<UserV2> optionalUser = Optional.empty();
+		optionalUser = userRepository.findById(uid);
+		// Optional Course
+		Optional<CourseV2> optionalCourse = Optional.empty();
+		optionalCourse = courseRepository.findById(c.getId());
+		// User check in DB
+		if (!optionalUser.isPresent()) {
 			throw new UserV2NotFoundException("id=" + uid);
 		}
-		UserV2 currentUser = optional.get();
+		// return a User object from DB 
+		UserV2 currentUser = optionalUser.get();
+		// Course check in DB
+		if (!optionalCourse.isPresent()) {
+			throw new CourseV2NotFoundException("id=" + c.getId());
+		}
+		// Add course to user
 		currentUser.addCourse(c);
-		// ADDED
+		// Save DB changes
 		userRepository.save(currentUser);
 		//
 		URI uri = ServletUriComponentsBuilder
