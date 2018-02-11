@@ -17,7 +17,8 @@ import com.codereachable.webservices.restfulwebservices.v1.content.CourseV1NotFo
 import com.codereachable.webservices.restfulwebservices.v1.controllers.user.UserV1NotFoundException;
 
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2NotFoundException;
-import com.codereachable.webservices.restfulwebservices.v2.user.UserV2NotFoundException;
+import com.codereachable.webservices.restfulwebservices.v2.user.exceptions.UserV2NotFoundException;
+import com.codereachable.webservices.restfulwebservices.v2.user.exceptions.UserV2UnauthorizedException;
 
 /*
  * This class will be responsible for 
@@ -99,6 +100,16 @@ extends ResponseEntityExceptionHandler {
 				ex.getMessage(), 
 				req.getDescription(false));
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+	// Handles userV2NotAuthorizedException
+	@ExceptionHandler(UserV2UnauthorizedException.class)
+	public final ResponseEntity<Object> handleUserAuth
+	(UserV2UnauthorizedException ex, WebRequest req) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(
+				new Date(),
+				ex.getMessage(),
+				req.getDescription(false));
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.UNAUTHORIZED);
 	}
 	
 	// Handles CourseV2NotFoundException

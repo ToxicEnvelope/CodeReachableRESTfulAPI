@@ -18,13 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.codereachable.webservices.restfulwebservices.sessions.SessionManager;
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2;
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2NotFoundException;
+import com.codereachable.webservices.restfulwebservices.v2.user.exceptions.UserV2NotFoundException;
+import com.codereachable.webservices.restfulwebservices.v2.user.exceptions.UserV2UnauthorizedException;
 import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.CourseV2Repository;
 import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.UserV2Repository;
 
 @RestController
-@RequestMapping("/v2/users")
+@RequestMapping("/v2")
 public class UserResourceV2 {
  
 	// Fields
@@ -37,9 +40,11 @@ public class UserResourceV2 {
 	@Autowired
 	private CourseV2Repository courseRepository;
 	
+	private SessionManager manager = new SessionManager();
+	
 	//GET /users
 	// output -> retrieve all users
-	@GetMapping("/")
+	@GetMapping("/users")
 	public List<UserV2> retrieveAllUsers() {
 		return userRepository.findAll();
 	}
@@ -47,23 +52,25 @@ public class UserResourceV2 {
 	//GET /users/{id}
 	// input -> a user id
 	// output -> return a specific user give an id
-	@GetMapping("/{id}")
-	public Optional<UserV2> retrieveUser(@PathVariable String id) {
-		Optional<UserV2> u = userRepository.findById(id);
-		if (!u.isPresent()) {
+	@GetMapping("/users/{id}")
+	public UserV2 retrieveUser(@PathVariable String id) {
+		Optional<UserV2> optionalUser  = Optional.empty(); 
+		optionalUser = userRepository.findById(id);
+		if (!optionalUser.isPresent()) {
 			/*
 			 * When User object is null we throw a
 			 * UserNotFoundException 
 			 */
 			throw new UserV2NotFoundException("id=" + id);
 		}
-		return u;
+		UserV2 currentUser = optionalUser.get();
+		return currentUser;
 	}
 	
 	//GET /users/{id}/course-list
 	// input -> user id
 	// output -> return all course from a specific user
-	@GetMapping("/{id}/course-list")
+	@GetMapping("/users/{id}/course-list")
 	public List<CourseV2> retriveUserCourses(@PathVariable String id) {
 		Optional<UserV2> u = userRepository.findById(id);
 		if (!u.isPresent()) {
@@ -75,14 +82,15 @@ public class UserResourceV2 {
 	//DELETE /users/{uid}/course-list/{cid}
 	// input -> user id , course id
 	// output -> delete a specific course of a specific user by id
-	@DeleteMapping("/{uid}/course-list/{cid}")
+	@DeleteMapping("/users/{uid}/course-list/{cid}")
 	public void deleteUserCourse(@PathVariable String uid, @PathVariable String cid) {
-		Optional<UserV2> u = userRepository.findById(uid);
-		if (!u.isPresent()) {
+		Optional<UserV2> optionalUser = Optional.empty();
+		optionalUser = userRepository.findById(uid);
+		if (!optionalUser.isPresent()) {
 			throw new UserV2NotFoundException("uid=" + uid);
 		}
 		else {
-			List<CourseV2> userCourses = u.get().getCourses();
+			List<CourseV2> userCourses = optionalUser.get().getCourses();
 			for(CourseV2 c : userCourses) {
 				if (cid == c.getId()) {
 					userCourses.remove(c);
@@ -94,11 +102,12 @@ public class UserResourceV2 {
 	//DELETE /users/{id}
 	// input -> a user id
 	// output -> return a specific users give an id
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/users/{id}")
 	public void deleteUser(@PathVariable String id) {
 		//UserV2 u = userRepository.deleteById(id);
-		Optional<UserV2> u = userRepository.findById(id);
-		if (!u.isPresent()) {
+		Optional<UserV2> optionalUser = Optional.empty();
+		optionalUser = userRepository.findById(id);
+		if (!optionalUser.isPresent()) {
 			/*
 			 * When User object is null we throw a
 			 * UserNotFoundException 
@@ -111,7 +120,7 @@ public class UserResourceV2 {
 	//POST 
 	// input -> user object
 	// output -> CREATED & Return the current URI
-	@PostMapping("/")
+	@PostMapping("/users")
 	public ResponseEntity<Object> createUser(@Valid @RequestBody UserV2 u) {
 		UserV2 savedUser = userRepository.save(u);
 		/*  Build a URI object to represent the CREATED
@@ -121,7 +130,7 @@ public class UserResourceV2 {
 		 */
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
-		     	.path("/{id}")
+		     	.path("/users/{id}")
 		     	.buildAndExpand(savedUser.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
@@ -129,7 +138,7 @@ public class UserResourceV2 {
 	//PUT
 	// input -> user id , course object
 	// output -> UPDATED & Return the current uri
-	@PutMapping("/{uid}/add-course")
+	@PutMapping("/users/{uid}/add-course")
 	public ResponseEntity<Object> addCourseToUser(@PathVariable String uid, @Valid @RequestBody CourseV2 c) {
 		// Optional User
 		Optional<UserV2> optionalUser = Optional.empty();
@@ -151,11 +160,33 @@ public class UserResourceV2 {
 		currentUser.addCourse(c);
 		// Save DB changes
 		userRepository.save(currentUser);
-		//
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{cid}")
 		     	.buildAndExpand(currentUser).toUri();
 		return ResponseEntity.created(uri).build();
+	}
+	
+	// LOGIN SECTION //
+	
+	//GET 
+	// input -> email , key
+	// output -> return a User object
+	@GetMapping("/login/{email}/{key}")
+	public UserV2 makeLogin(@PathVariable String email, @PathVariable String key) {		
+		UserV2 user = null;
+		List<UserV2> users = userRepository.findAll();
+		for(UserV2 u : users) {
+			if (u.getDetails().getEmail().equals(email))
+			{
+				user = u;
+				break;
+			}
+		}
+		if (!user.getDetails().getSecret().getKey().equals(key)) {
+			throw new UserV2UnauthorizedException("password=" + key); 
+		}
+		manager.addSession(user);
+		return user;
 	}
 }
