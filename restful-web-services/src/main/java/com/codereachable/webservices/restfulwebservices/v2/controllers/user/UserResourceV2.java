@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2;
-import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.CourseV2Repository;
+//import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.CourseV2Repository;
 import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.UserV2Repository;
 
 @RestController
@@ -33,8 +33,8 @@ public class UserResourceV2 {
 //	private CourseDaoServiceV2 cservice;
 	@Autowired
 	private UserV2Repository userRepository;
-	@Autowired
-	private CourseV2Repository courseRepository;
+//	@Autowired
+//	private CourseV2Repository courseRepository;
 	
 	//GET /users
 	// output -> retrieve all users
@@ -137,6 +137,9 @@ public class UserResourceV2 {
 		}
 		UserV2 currentUser = optional.get();
 		currentUser.addCourse(c);
+		// ADDED
+		userRepository.save(currentUser);
+		//
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{cid}")
