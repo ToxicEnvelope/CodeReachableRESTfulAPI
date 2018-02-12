@@ -18,7 +18,7 @@ public class CourseV2 {
 	@Id
 	private String _courseId;  
 	@NotNull
-	@Size(min=2, max=15, message="Course Name excepts between 2 to 10 charachters")
+	@Size(min=2, max=15, message="Course Name excepts between 2 to 15 charachters")
 	private String _courseName;
 	@NotNull
 	@Size(min=20, max=100, message="Course Details excepts between 20 to 100 charachters")
