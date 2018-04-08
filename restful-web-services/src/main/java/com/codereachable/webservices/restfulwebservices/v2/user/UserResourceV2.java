@@ -1,6 +1,7 @@
 package com.codereachable.webservices.restfulwebservices.v2.user;
 
 import java.net.URI;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2;
 import com.codereachable.webservices.restfulwebservices.v2.content.CourseV2NotFoundException;
+import com.codereachable.webservices.restfulwebservices.v2.user.exceptions.UserV2NoContentException;
 import com.codereachable.webservices.restfulwebservices.v2.user.exceptions.UserV2NotFoundException;
 import com.codereachable.webservices.restfulwebservices.v2.user.exceptions.UserV2UnauthorizedException;
 import com.codereachable.webservices.restfulwebservices.v2.utils.repositories.CourseV2Repository;
@@ -76,24 +78,30 @@ public class UserResourceV2 {
 		return u.get().getCourses();
 	}
 	
-	//DELETE /users/{uid}/course-list/{cid}
+	//DELETE /users/{uid}/remove-course/{cid}
 	// input -> user id , course id
 	// output -> delete a specific course of a specific user by id
-	@DeleteMapping("/users/{uid}/course-list/{cid}")
+	@DeleteMapping("/users/{uid}/remove-course/{cid}")
 	public void deleteUserCourse(@PathVariable String uid, @PathVariable String cid) {
 		Optional<UserV2> optionalUser = Optional.empty();
 		optionalUser = userRepository.findById(uid);
 		if (!optionalUser.isPresent()) {
 			throw new UserV2NotFoundException("uid=" + uid);
 		}
-		else {
-			List<CourseV2> userCourses = optionalUser.get().getCourses();
-			for(CourseV2 c : userCourses) {
-				if (cid == c.getId()) {
-					userCourses.remove(c);
-				}
-			}
+		// retrieve user object 
+		UserV2 actualUser = optionalUser.get();
+		// retrieve courses list
+		List<CourseV2> userCourses = actualUser.getCourses();
+		if (userCourses.isEmpty()) {
+			throw new UserV2NoContentException("uid=" + uid);
 		}
+		for(Iterator<CourseV2> iterator = userCourses.iterator(); iterator.hasNext();) {
+			CourseV2 c = iterator.next();
+			if (c.getId().equals(cid)) {
+				iterator.remove();
+			}
+		} 
+		userRepository.save(actualUser);
 	}
 	
 	//DELETE /users/{id}
@@ -127,7 +135,7 @@ public class UserResourceV2 {
 		 */
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
-		     	.path("/users/{id}")
+		     	.path("/{id}")
 		     	.buildAndExpand(savedUser.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}

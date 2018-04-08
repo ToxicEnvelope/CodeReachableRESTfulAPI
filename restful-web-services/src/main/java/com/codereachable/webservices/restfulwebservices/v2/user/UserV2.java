@@ -64,6 +64,10 @@ public class UserV2 {
 		this._courses.add(c);
 	}
 	
+	public void removeCourse(CourseV2 c) {
+		this._courses.remove(c);
+	}
+	
 	@Override
 	public String toString() {
 		return "User : {id=" + getId() + ", details=" + getDetails() + ", course=" + getCourses() +"}";
