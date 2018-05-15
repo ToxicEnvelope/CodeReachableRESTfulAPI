@@ -68,10 +68,10 @@ public class UserResourceV2 {
 		return currentUser;
 	}
 	
-	//GET /users/{id}/course-list
+	//GET /users/{id}/courses-list
 	// input -> user id
 	// output -> return all course from a specific user
-	@GetMapping("/users/{id}/course-list")
+	@GetMapping("/users/{id}/courses-list")
 	public List<CourseV2> retriveUserCourses(@PathVariable String id) {
 		Optional<UserV2> u = userRepository.findById(id);
 		if (!u.isPresent()) {
@@ -178,11 +178,11 @@ public class UserResourceV2 {
 	
 	// LOGIN SECTION //
 	
-	//GET /login/{email}/{key}
-	// input -> email , key
+	//GET /login/{email}/{secret}
+	// input -> email , secret
 	// output -> return a User object
-	@GetMapping("/login/{email}/{key}")
-	public UserV2 makeLogin(@PathVariable String email, @PathVariable String key) {
+	@GetMapping("/login/{email}/{secret}")
+	public UserV2 makeLogin(@PathVariable String email, @PathVariable String secret) {
 		UserV2 targetUser = null;
 		List<UserV2> users = userRepository.findAll();
 		// Looking for the correct user in users by his email
@@ -193,8 +193,8 @@ public class UserResourceV2 {
 			}
 		}
 		// Check for user's key 
-		if (!targetUser.getDetails().getSecret().getKey().equals(key)) {
-			throw new UserV2UnauthorizedException("password=" + key); 
+		if (!targetUser.getDetails().getSecret().getSecret().equals(secret)) {
+			throw new UserV2UnauthorizedException("password=" + secret); 
 		}
 		return targetUser;
 	}

@@ -1,0 +1,282 @@
+{
+	"info": {
+		"_postman_id": "ecccd1f7-1f65-42e5-ba64-185f05c41379",
+		"name": "Users API ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users API - Courses",
+			"description": "",
+			"item": [
+				{
+					"name": "GET user course list data - 200 OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "572b95b4-9040-459e-bcea-f18ba4a6a3d0",
+								"type": "text/javascript",
+								"exec": [
+									"// Check for 200",
+									"pm.test(\"Expect 200 OK\", function () {",
+									"    console.log(\"Assert Status Code To Be '200 OK'\");",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"// Expect NOT EMPTY Response",
+									"pm.test(\"Expect User Courses List Not Empty\", function () {",
+									"    pm.expect(pm.response.to.have.jsonBody()).not.empty;",
+									"});",
+									"",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7bbd6a84-b23c-4124-8fc7-f9fb0e11fb64",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{baseURI}}/{{baseAPI}}/{{users}}/{{userId}}/{{coursesList}}",
+							"protocol": "http",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{baseAPI}}",
+								"{{users}}",
+								"{{userId}}",
+								"{{coursesList}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET user course list data - 404 Not Found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ddfe5418-254c-4304-b881-d1b4344d7279",
+								"type": "text/javascript",
+								"exec": [
+									"// Check for 404",
+									"pm.test(\"Expect 404 Not Found\", function () {",
+									"    console.log(\"Assert Status Code To Be '404 Not Found'\");",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7bbd6a84-b23c-4124-8fc7-f9fb0e11fb64",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{baseURI}}/{{baseAPI}}/{{users}}/{{userIdInvalid}}/{{coursesList}}",
+							"protocol": "http",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{baseAPI}}",
+								"{{users}}",
+								"{{userIdInvalid}}",
+								"{{coursesList}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GET all users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "432d6abe-0e33-4c56-b790-539cda74bdc8",
+						"type": "text/javascript",
+						"exec": [
+							"// Check for 200",
+							"pm.test(\"Expect 200 OK\", function () {",
+							"    console.log(\"Assert Status Code To Be '200 OK'\");",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"// Expect NOT EMPTY Response",
+							"pm.test(\"Expect Users In Response\", function () {",
+							"    pm.response.to.not.be.empty;",
+							"});",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7bbd6a84-b23c-4124-8fc7-f9fb0e11fb64",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{baseURI}}/{{baseAPI}}/{{users}}",
+					"protocol": "http",
+					"host": [
+						"{{baseURI}}"
+					],
+					"path": [
+						"{{baseAPI}}",
+						"{{users}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET user by id - 404 Not Found",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e3dbae0f-c3ba-465d-89aa-2f8de086f903",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "bba51c38-33d1-4b07-b6a7-63a1e9cff343",
+						"type": "text/javascript",
+						"exec": [
+							"// Check for 404",
+							"pm.test(\"Expect 404 Not Found\", function () {",
+							"    console.log(\"Assert Status Code To Be '404 Not Found'\");",
+							"    pm.response.to.have.status(404)",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{baseURI}}/{{baseAPI}}/{{users}}/{{userIdInvalid}}",
+					"protocol": "http",
+					"host": [
+						"{{baseURI}}"
+					],
+					"path": [
+						"{{baseAPI}}",
+						"{{users}}",
+						"{{userIdInvalid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET user by id - 200 OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9d0cd8ef-4f64-49e2-908c-6f7091208eb4",
+						"type": "text/javascript",
+						"exec": [
+							"// Check for 200",
+							"pm.test(\"Expect 200 OK\", function () {",
+							"    console.log(\"Assert Status Code To Be '200 OK'\");",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"// Expect NOT EMPTY Response",
+							"pm.test(\"Expect Users In Response\", function () {",
+							"    pm.response.to.not.be.empty;",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ca76e45e-dc6a-4286-8126-58daeb501138",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{baseURI}}/{{baseAPI}}/{{users}}/{{userId}}",
+					"protocol": "http",
+					"host": [
+						"{{baseURI}}"
+					],
+					"path": [
+						"{{baseAPI}}",
+						"{{users}}",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -2,6 +2,7 @@ package com.codereachable.restful.webservices.v2.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
@@ -33,6 +34,10 @@ public class UserV2 {
 	 * Will handle user creation and not return a 500 response .
 	 */
 	public UserV2() {}
+	public UserV2(Details details) {
+		this._id = UUID.randomUUID().toString().replace("-", ".");
+		this._details = details;
+	}
 	//Constructor
 	public UserV2(String id, Details details) {
 		this._id = id;

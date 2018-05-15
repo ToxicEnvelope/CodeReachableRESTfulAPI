@@ -2,6 +2,8 @@ package com.codereachable.restful.webservices.v2.content;
 
 
 
+import java.util.UUID;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -34,6 +36,12 @@ public class CourseV2 {
 	 * Will handle user creation and not return a 500 response .
 	 */
 	public CourseV2() {}
+	public CourseV2(String cname, String details, int price) {
+		this._courseId = UUID.randomUUID().toString().replace("-", "");
+		this._courseName = cname;
+		this._courseDetails = details;
+		this._price = price;	 
+	}
 	// Constructor
 	public CourseV2(String id, String cname, String details, int price) {
 		this._courseId = id;

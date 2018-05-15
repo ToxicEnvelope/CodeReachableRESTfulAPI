@@ -1,0 +1,39 @@
+{
+  "id": "146e52f0-fd32-4814-8e58-8a3c0f4d5eb7",
+  "values": [
+    {
+      "key": "baseURI",
+      "value": "localhost:8080",
+      "enabled": true,
+      "type": "text"
+    },
+    {
+      "key": "baseAPI",
+      "value": "v2",
+      "enabled": true,
+      "type": "text"
+    },
+    {
+      "key": "users",
+      "value": "users",
+      "enabled": true,
+      "type": "text"
+    },
+    {
+      "key": "courses",
+      "value": "courses",
+      "enabled": true,
+      "type": "text"
+    },
+    {
+      "key": "coursesList",
+      "value": "courses-list",
+      "enabled": true,
+      "type": "text"
+    }
+  ],
+  "name": "My Workspace Globals",
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2018-05-15T01:43:06.087Z",
+  "_postman_exported_using": "Postman/6.0.10"
+}

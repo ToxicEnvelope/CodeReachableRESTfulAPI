@@ -97,7 +97,7 @@ extends ResponseEntityExceptionHandler {
 	(UserV2NotFoundException ex, WebRequest req) {
 		ExceptionResponse exceptionResponse = new ExceptionResponse(
 				new Date(),
-				ex.getMessage(), 
+				ex.getMessage() + " : " + req.getSessionId(), 
 				req.getDescription(false));
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
 	}
@@ -107,7 +107,7 @@ extends ResponseEntityExceptionHandler {
 	(UserV2UnauthorizedException ex, WebRequest req) {
 		ExceptionResponse exceptionResponse = new ExceptionResponse(
 				new Date(),
-				ex.getMessage(),
+				ex.getMessage() + " : " + req.getSessionId(),
 				req.getDescription(false));
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.UNAUTHORIZED);
 	}
@@ -118,7 +118,7 @@ extends ResponseEntityExceptionHandler {
 	(CourseV2NotFoundException ex, WebRequest req) {
 		ExceptionResponse exceptionResponse = new ExceptionResponse(
 				new Date(),
-				ex.getMessage(), 
+				ex.getMessage() + " : " + req.getSessionId(), 
 				req.getDescription(false));
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
 	}
@@ -129,7 +129,7 @@ extends ResponseEntityExceptionHandler {
 	(UserV2NoContentException ex, WebRequest req) {
 		ExceptionResponse exceptionResponse = new ExceptionResponse(
 				new Date(),
-				ex.getMessage(), 
+				ex.getMessage() + " : " + req.getSessionId(), 
 				req.getDescription(false));
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NO_CONTENT);
 	}

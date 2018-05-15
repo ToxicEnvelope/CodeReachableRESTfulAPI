@@ -25,6 +25,8 @@ public class Details {
 	@NotNull
 	@Size(min=8, max=14)
 	private UserV2Secret _secret;
+	@NotNull
+	private Address _address;
 	
 	public Details() {}
 	public Details(Alias alias, Date date, String email, UserV2Secret secret) {
@@ -34,6 +36,15 @@ public class Details {
 		this._score = 0;
 		this._secret = secret;
 	}
+	public Details(Alias alias, Address addr, Date date, String email, UserV2Secret secret) {
+		this._alias = alias;
+		this._address = addr;
+		this._bDate = date;
+		this._email = email;
+		this._score = 0;
+		this._secret = secret;
+	}
+	
 	
 	// Getters & Setters
 	public Alias getAlias() {
@@ -75,8 +86,14 @@ public class Details {
 	public void setSecret(UserV2Secret phrase) {
 		this._secret = phrase;
 	}
-	
-	public String toString() {
-		return "Details : {alias=" + getAlias() + ", birthdate=" + getDateOfBirth() +", email=" + getEmail() + ", score=" + getScore() + ", secret=" + getSecret() + "}";
+	public Address getAddress() {
+		return _address;
 	}
+	public void setAddress(Address addr) {
+		this._address = addr;
+	}
+	public String toString() {
+		return "Details : {alias=" + getAlias() + ", address="+ getAddress() +", birthdate=" + getDateOfBirth() +", email=" + getEmail() + ", score=" + getScore() + ", secret=" + getSecret() + "}";
+	}
+	
 }
