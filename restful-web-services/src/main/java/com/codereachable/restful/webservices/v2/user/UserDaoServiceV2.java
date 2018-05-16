@@ -8,8 +8,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.codereachable.restful.webservices.v2.user.details.Alias;
-import com.codereachable.restful.webservices.v2.user.details.Details;
+
 
 @Component
 public class UserDaoServiceV2 {
@@ -19,11 +18,11 @@ public class UserDaoServiceV2 {
 	private static Integer usersCount = 3;
 	
 	// Static array list to simulate database
-	static {
-		users.add(new UserV2("1",new Details( new Alias("Adam", "Eden"), new Date(), "adam@yahoo.com", new UserV2Secret(""))));
-		users.add(new UserV2("2", new Details( new Alias("Eve", "Eden"), new Date(), "eve@facebook.com", new UserV2Secret(""))));
-		users.add(new UserV2("3", new Details( new Alias("Jack", "Sparro"), new Date(), "jack@live.com", new UserV2Secret(""))));
-	}
+//	static {
+//		users.add(new UserV2("1",new Details( new Alias("Adam", "Eden"), new Date(), "adam@yahoo.com", new UserV2Secret(""))));
+//		users.add(new UserV2("2", new Details( new Alias("Eve", "Eden"), new Date(), "eve@facebook.com", new UserV2Secret(""))));
+//		users.add(new UserV2("3", new Details( new Alias("Jack", "Sparro"), new Date(), "jack@live.com", new UserV2Secret(""))));
+//	}
 	
 	// findAll -> return all users from DB
 	public List<UserV2> findAll() {
@@ -46,8 +45,8 @@ public class UserDaoServiceV2 {
 		if (u.getId() == null) {
 			u.setId(Integer.toString(++usersCount));
 		}
-		if (u.getDetails().getDateOfBirth() == null) {
-			u.getDetails().setDateOdBirth(new Date());
+		if (u.getAccount().getDetails().getDateOfBirth() == null) {
+			u.getAccount().getDetails().setDateOdBirth(new Date());
 		}
 		users.add(u);
 		return u;

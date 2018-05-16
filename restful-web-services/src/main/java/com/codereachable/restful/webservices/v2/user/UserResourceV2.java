@@ -1,8 +1,8 @@
 package com.codereachable.restful.webservices.v2.user;
 
 import java.net.URI;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -72,12 +72,12 @@ public class UserResourceV2 {
 	// input -> user id
 	// output -> return all course from a specific user
 	@GetMapping("/users/{id}/courses-list")
-	public List<CourseV2> retriveUserCourses(@PathVariable String id) {
+	public Map<String, CourseV2> retriveUserCourses(@PathVariable String id) {
 		Optional<UserV2> u = userRepository.findById(id);
 		if (!u.isPresent()) {
 			throw new UserV2NotFoundException("id=" + id);	
 		}
-		return u.get().getCourses();
+		return u.get().getAccount().getCourses();
 	}
 	
 	//DELETE /users/{uid}/remove-course/{cid}
@@ -93,16 +93,16 @@ public class UserResourceV2 {
 		// retrieve user object 
 		UserV2 actualUser = optionalUser.get();
 		// retrieve courses list
-		List<CourseV2> userCourses = actualUser.getCourses();
+		Map<String, CourseV2> userCourses = actualUser.getAccount().getCourses();
 		if (userCourses.isEmpty()) {
 			throw new UserV2NoContentException("uid=" + uid);
 		}
-		for(Iterator<CourseV2> iterator = userCourses.iterator(); iterator.hasNext();) {
-			CourseV2 c = iterator.next();
-			if (c.getId().equals(cid)) {
-				iterator.remove();
+		for(Map.Entry<String, CourseV2> entry : userCourses.entrySet()) {
+			String key = entry.getKey();
+			if (key.equals(uid)) {
+				userCourses.remove(uid);
 			}
-		} 
+		}
 		userRepository.save(actualUser);
 	}
 	
@@ -146,7 +146,7 @@ public class UserResourceV2 {
 			throw new CourseV2NotFoundException("id=" + c.getId());
 		}
 		// Add course to user
-		currentUser.addCourse(c);
+		currentUser.getAccount().addCourse(c);
 		// Save DB changes
 		userRepository.save(currentUser);
 		URI uri = ServletUriComponentsBuilder
@@ -163,6 +163,7 @@ public class UserResourceV2 {
 	// output -> CREATED & Return the current URI
 	@PostMapping("/register")
 	public ResponseEntity<Object> createUser(@Valid @RequestBody UserV2 u) {
+		u.getAccount().getDetails().setOrigin();
 		UserV2 savedUser = userRepository.save(u);
 		/*  Build a URI object to represent the CREATED
 		 * new User and return his ResponseEntity
@@ -187,13 +188,13 @@ public class UserResourceV2 {
 		List<UserV2> users = userRepository.findAll();
 		// Looking for the correct user in users by his email
 		for(UserV2 u : users) {
-			if (u.getDetails().getEmail().equals(email)) {
+			if (u.getAccount().getDetails().getEmail().equals(email)) {
 				targetUser = u;
 				break;
 			}
 		}
 		// Check for user's key 
-		if (!targetUser.getDetails().getSecret().getSecret().equals(secret)) {
+		if (!targetUser.getAccount().getDetails().getSecret().getSecret().equals(secret)) {
 			throw new UserV2UnauthorizedException("password=" + secret); 
 		}
 		return targetUser;

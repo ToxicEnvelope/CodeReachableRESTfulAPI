@@ -1,7 +1,6 @@
 package com.codereachable.restful.webservices.v2.user;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
@@ -10,8 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Service;
 
-import com.codereachable.restful.webservices.v2.content.CourseV2;
-import com.codereachable.restful.webservices.v2.user.details.Details;
+import com.codereachable.restful.webservices.v2.user.account.Account;
 @Service
 @Document( collection = "Users")
 public class UserV2 {
@@ -20,9 +18,9 @@ public class UserV2 {
 	@Id
 	private String _id;
 	@NotNull
-	private Details _details;
-	@NotNull
-	private List<CourseV2> _courses = new ArrayList<>();
+	private Account _account;
+	
+	//private List<CourseV2> _courses = new ArrayList<>();
 //	// added global courses to simulate a DB for testing purposes
 //	{
 //		_courses.add(new Course(12, "C++", "A simple C++ description"));
@@ -34,14 +32,9 @@ public class UserV2 {
 	 * Will handle user creation and not return a 500 response .
 	 */
 	public UserV2() {}
-	public UserV2(Details details) {
+	public UserV2(Account account) {
 		this._id = UUID.randomUUID().toString().replace("-", ".");
-		this._details = details;
-	}
-	//Constructor
-	public UserV2(String id, Details details) {
-		this._id = id;
-		this._details = details;
+		this._account = account;
 	}
 
 	// Getters & Setters
@@ -52,29 +45,17 @@ public class UserV2 {
 	public void setId(String id) {
 		this._id = id;
 	}
-	
-	public Details getDetails() {
-		return _details;
+
+	public Account getAccount() {
+		return _account;
 	}
 	
-	public void setDetails(Details details) {
-		this._details = details;
-	}
-	
-	public List<CourseV2> getCourses() {
-		return _courses;
-	}
-	
-	public void addCourse(CourseV2 c) {
-		this._courses.add(c);
-	}
-	
-	public void removeCourse(CourseV2 c) {
-		this._courses.remove(c);
+	public void setAccount(Account account) {
+		this._account = account;
 	}
 	
 	@Override
 	public String toString() {
-		return "User : {id=" + getId() + ", details=" + getDetails() + ", course=" + getCourses() +"}";
+		return "User : {id=" + getId()+", account="+ getAccount() +"}";
 	}
 }

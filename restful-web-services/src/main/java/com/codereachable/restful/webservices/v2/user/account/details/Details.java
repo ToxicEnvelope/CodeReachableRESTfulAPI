@@ -1,4 +1,4 @@
-package com.codereachable.restful.webservices.v2.user.details;
+package com.codereachable.restful.webservices.v2.user.account.details;
 
 import java.util.Date;
 
@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import com.codereachable.restful.webservices.v2.user.UserV2Secret;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties({"secret"})
+@JsonIgnoreProperties({"secret","origin","timestamp"})
 public class Details {
 
 //	@NotNull
@@ -27,6 +27,8 @@ public class Details {
 	private UserV2Secret _secret;
 	@NotNull
 	private Address _address;
+	private Long origin;
+	private Long timestamp;
 	
 	public Details() {}
 	public Details(Alias alias, Date date, String email, UserV2Secret secret) {
@@ -92,6 +94,19 @@ public class Details {
 	public void setAddress(Address addr) {
 		this._address = addr;
 	}
+	public Long getOrigin() {
+		return origin;
+	}
+	public void setOrigin() {
+		this.origin = System.currentTimeMillis();
+	}
+	public Long getTimestamp() {
+		return timestamp;
+	}
+	public void setTimestamp() {
+		this.timestamp = System.currentTimeMillis();
+	}
+	
 	public String toString() {
 		return "Details : {alias=" + getAlias() + ", address="+ getAddress() +", birthdate=" + getDateOfBirth() +", email=" + getEmail() + ", score=" + getScore() + ", secret=" + getSecret() + "}";
 	}

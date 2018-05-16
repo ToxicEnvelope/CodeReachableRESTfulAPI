@@ -11,9 +11,10 @@ import org.springframework.stereotype.Component;
 import com.codereachable.restful.webservices.v2.content.CourseV2;
 import com.codereachable.restful.webservices.v2.user.UserV2;
 import com.codereachable.restful.webservices.v2.user.UserV2Secret;
-import com.codereachable.restful.webservices.v2.user.details.Address;
-import com.codereachable.restful.webservices.v2.user.details.Alias;
-import com.codereachable.restful.webservices.v2.user.details.Details;
+import com.codereachable.restful.webservices.v2.user.account.Account;
+import com.codereachable.restful.webservices.v2.user.account.details.Address;
+import com.codereachable.restful.webservices.v2.user.account.details.Alias;
+import com.codereachable.restful.webservices.v2.user.account.details.Details;
 import com.codereachable.restful.webservices.v2.utils.repositories.CourseV2Repository;
 import com.codereachable.restful.webservices.v2.utils.repositories.UserV2Repository;
 
@@ -49,9 +50,9 @@ public class DbSeeder implements CommandLineRunner {
 
 			
 		// Static Users to be seeded into MongoDB
-		UserV2 adam = new UserV2(new Details( new Alias("Adam", "Eden"), new Address("IL", "IL", 972,  "Nahariya", "King Solomon St. Building 8", 22202), new Date(), "adam@yahoo.com", new UserV2Secret("A1b2C3d4")));
-		UserV2 eve = new UserV2(new Details( new Alias("Eve", "Eden"), new Address("US", "MA", 1,  "Somewhere", "Main St 2212/6", 654321), new Date(), "eve@facebook.com", new UserV2Secret("1234abcd")));
-		UserV2 jack = new UserV2(new Details( new Alias("Jack", "Sparro"), new Address("RU", "SP", 970,  "San Petersburg", "Romanov Blv. 131", 4567892), new Date(), "jack@live.com", new UserV2Secret("A4C2D1B3")));
+		UserV2 adam = new UserV2(new Account(new Details( new Alias("Adam", "Eden"), new Address("IL", "IL", 972,  "Nahariya", "King Solomon St. Building 8", 22202), new Date(), "adam@yahoo.com", new UserV2Secret("A1b2C3d4"))));
+		UserV2 eve = new UserV2(new Account(new Details( new Alias("Eve", "Eden"), new Address("US", "MA", 1,  "Somewhere", "Main St 2212/6", 654321), new Date(), "eve@facebook.com", new UserV2Secret("1234abcd"))));
+		UserV2 jack = new UserV2(new Account(new Details( new Alias("Jack", "Sparro"), new Address("RU", "SP", 970,  "San Petersburg", "Romanov Blv. 131", 4567892), new Date(), "jack@live.com", new UserV2Secret("A4C2D1B3"))));
 		
 		// drop all courses
 		userRepository.deleteAll();
